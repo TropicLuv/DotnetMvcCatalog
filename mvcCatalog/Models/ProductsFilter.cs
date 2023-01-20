@@ -4,7 +4,8 @@ public class ProductsFilter
 {
     public List<string>? Manufacturers { get; set; }
     public bool IsDiscount { get; set; }
-    // public Tuple<decimal, decimal>? PriceRange { get; set; }
+    public int PriceFrom { get; set; }
+    public int PriceTo { get; set; }
 
     // public string toString()
     // {

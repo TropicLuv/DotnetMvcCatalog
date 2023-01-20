@@ -16,7 +16,7 @@
     else
     {
         // TODO - Change to min-max price
-        price = element.Value.Item1 + "$";
+        price = "from " + element.Value.Item1 + "$";
     }
     <div class="product-element">
         <img class="picture" src="https://picsum.photos/200" alt="">
@@ -26,5 +26,6 @@
             <p class="description">@element.Key.ProductDescription</p>
         </div>
         <span class="price">@price</span>
+
     </div>
 }

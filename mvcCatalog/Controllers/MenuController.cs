@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using mvcCatalog.Models;
 using mvcCatalog.Repositories;
 
@@ -19,13 +18,13 @@ public class MenuController : Controller
     {
         if (_repo.CategoryRepo.isNull()) return Problem("Entity was not set");
         var categories = await _repo.CategoryRepo.getWithNoParent();
-        return View("Categories",categories);
+        return View("Categories", categories);
     }
 
 
     public async Task<PartialViewResult> Products(string categoryId)
     {
-        var products = await _repo.ProductRepo.GetByCategoryId(Int32.Parse(categoryId)).ToListAsync();
+        var products = await _repo.ProductRepo.GetByCategoryId(int.Parse(categoryId)).ToListAsync();
         var setOfYears = new HashSet<string>();
         var manufacturers = new HashSet<string>();
         var minMaxProductPrices = new Dictionary<Product, Tuple<decimal, decimal>?>();
@@ -49,35 +48,49 @@ public class MenuController : Controller
         return PartialView("_ProductsView", productView);
     }
 
-    
+
     [HttpPost]
     public async Task<PartialViewResult> Products(string categoryId,
-        [Bind("Manufacturers", "IsDiscount")] ProductsFilter productsFilter)
+        [Bind("Manufacturers", "IsDiscount", "PriceFrom, PriceTo")]
+        ProductsFilter productsFilter)
     {
-        var products = _repo.ProductRepo.GetByCategoryId(Int32.Parse(categoryId));
-        if (productsFilter.IsDiscount)
-            products = _repo.ProductRepo.isDiscountByCategoryId(Int32.Parse(categoryId));
-        
-//TODO - ask koghu/mamuka about  if i use object to find something using ef 
-        if (productsFilter.Manufacturers != null)
+        IQueryable<Product> products;
+        var PriceRange = new Tuple<int, int>(productsFilter.PriceFrom, productsFilter.PriceTo);
+
+        if (PriceRange.Item1 == 0 && PriceRange.Item2 == 0)
         {
-            products = products.Where(p => productsFilter.Manufacturers
-                    .Contains(p.Manufacturer));
+            products = _repo.ProductRepo.GetByCategoryId(int.Parse(categoryId));
+        }
+        else
+        {
+            products =
+                _repo.ProductFromSupplierRepo.GetProductsByPriceRangeAndCategoryId(int.Parse(categoryId), PriceRange);
         }
         
+        if (productsFilter.IsDiscount)
+            products = _repo.ProductRepo.isDiscountByCategoryId(int.Parse(categoryId));
+
+//TODO - ask koghu/mamuka about  if i use object to find something, using ef 
+        if (productsFilter.Manufacturers != null)
+            products = products.Where(p => productsFilter.Manufacturers
+                .Contains(p.Manufacturer));
+
         var productsFiltered = await products.ToListAsync();
-        
+
         var minMaxProductPrices = new Dictionary<Product, Tuple<decimal, decimal>?>();
-        
+
         //Dict of (product, null) or (product, Tuple of (minMaxPrice))
         foreach (var product in productsFiltered)
         {
             //TODO - Optimize it later using Select
             var productMinMaxPrices =
-                    _repo.ProductFromSupplierRepo.GetMinMaxPriceByProductId(product.ProductId);
-            
+                _repo.ProductFromSupplierRepo.GetMinMaxPriceByProductId(product.ProductId);
+
             minMaxProductPrices.Add(product, productMinMaxPrices);
         }
+
+        Console.WriteLine(productsFilter.PriceFrom);
+
         return PartialView("_Products", minMaxProductPrices);
     }
 

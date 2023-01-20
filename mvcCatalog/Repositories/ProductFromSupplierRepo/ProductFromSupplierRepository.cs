@@ -1,4 +1,4 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using System.Diagnostics.CodeAnalysis;
 using mvcCatalog.Data;
 using mvcCatalog.Models;
 using mvcCatalog.Repositories.GenericRepository;
@@ -11,6 +11,7 @@ public class ProductFromSupplierRepository : GenericRepository<ProductFromSuppli
     {
     }
 
+    [SuppressMessage("ReSharper.DPA", "DPA0006: Large number of DB commands", MessageId = "count: 265")]
     public Tuple<decimal, decimal>? GetMinMaxPriceByProductId(int productId)
     {
         var minMaxPrices = _dbSet
@@ -28,5 +29,12 @@ public class ProductFromSupplierRepository : GenericRepository<ProductFromSuppli
 
         return null;
     }
-    
+
+    public IQueryable<Product> GetProductsByPriceRangeAndCategoryId(int categoryId, Tuple<int, int> priceRange)
+    {
+        return _dbSet
+            .Where(pfs => pfs.Product.CategoryId == categoryId)
+            .Where(pfs => pfs.Price >= priceRange.Item1 && pfs.Price <= priceRange.Item2)
+            .Select(pfs => pfs.Product).Distinct();
+    }
 }

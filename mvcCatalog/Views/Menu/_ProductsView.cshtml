@@ -7,49 +7,58 @@
 }
 
 
-<h1>Products</h1>
+@* <h1>Products</h1> *@
 
-<input id="categoryId" value="@Model.CategoryId">
+<input id="categoryId" value="@Model.CategoryId" hidden="hidden">
 
 <a asp-area="" asp-controller="Menu" asp-action="Categories">Tel</a>
 <div class="product_view">
-    <form class="filter_menu" onchange="submitForm(); return false;">
+    <div>
+        <div class="filter_menu">
+            <form class="sub-section" onsubmit="submitForm(); return false;">
+                <label class="filter_sub_title">Price</label>
+                <div class="price_range">
+                    <div class="">
+                        <span>from</span>
+                        <br>
+                        <input class="priceMinMax" id="from" type="number" autocomplete="off" min="0">
+                        <br>
+                        <span>to</span>
+                        <br>
+                        <input class="priceMinMax" id="to" type="number" autocomplete="off" min="0">
+                    </div>
+                    <button class="button_for_price" onclick="submitForm(); return false;">OK</button>
+                </div>
+                <div class="checkbox-centered">
+                    <label for="isDiscount">Discount</label>
+                    <input type="checkbox" id="isDiscount" name="IsDiscount" value="Discount">
+                </div>
 
-        @* <span class="filter_title">Workable Example</span> *@
-
-        <div class="sub-section">
-            <span class="filter_sub_title">Price</span>
-            <div class="price_range">
-                <span>from</span>
-                <br>
-                <input type="number">
-                <br>
-                <span>to</span>
-                <br>
-                <input type="number">
-            </div>
+            </form>
         </div>
+        <form class="filter_menu" onchange="submitForm(); return false;">
 
-        <p class="sub-section">
-            <label for="isDiscount">Discount</label>
-            <input type="checkbox" id="isDiscount" name="IsDiscount" value="Discount">
-        </p>
-        <p class="sub-section">
-            <label for="manufacturer">Manufacturer</label>
-            <ul id="manufacturer">
-                @foreach (var manufacturer in Model.Manufacturers)
-                {
-                    <li>
-                        <input type="checkbox" id="@manufacturer" name="Manufacturer" value="@manufacturer">
-                        <label for="@manufacturer">@manufacturer</label>
-                    </li>
-                }
-            </ul>
-        </p>
-        @* <span class="filter_title">non-Workable Example</span> *@
-    </form>
+            @* <span class="filter_title">Workable Example</span> *@
+
+            <div class="sub-section">
+                <label class="filter_sub_title">Manufacturer</label>
+                <ul id="manufacturer">
+                    @foreach (var manufacturer in Model.Manufacturers)
+                    {
+                        <li>
+                            <input type="checkbox" id="@manufacturer" name="Manufacturer" value="@manufacturer">
+                            <label for="@manufacturer">@manufacturer</label>
+                        </li>
+                    }
+                </ul>
+
+            </div>
+            @* <span class="filter_title">non-Workable Example</span> *@
+        </form>
+    </div>
+
     <div id="products" class="products">
-        @Html.Partial("_Products", Model.ProductsAndPrices);
+        @Html.Partial("_Products", Model.ProductsAndPrices)
     </div>
 
 </div>
@@ -60,12 +69,31 @@
     <script>
     function submitForm(){
         let categoryId = document.getElementById("categoryId").value;
+        
+        let from = document.getElementById("from").value;
+        let to = document.getElementById("to").value;
+        if (from.length === 0 && to.length === 0){
+            from = to = 0
+            }
+        else{
+            if (from.length === 0) from = 0
+            else from = parseInt(from);
+            
+            if (to.length === 0) to = 999999
+            else to = parseInt(to);
+        }
+        
         let productsFilter = {
             Manufacturers: [],
             IsDiscount: false,
+            PriceFrom: from,
+            PriceTo: to
             }
         
         let manufacturers = document.getElementsByName("Manufacturer");
+        
+        
+        
         
         if (document.getElementsByName("IsDiscount")[0].checked){
             productsFilter.IsDiscount = true;
@@ -75,7 +103,7 @@
                 productsFilter.Manufacturers.push(manufacturers[i].value);
             } 
         }
-        console.log(productsFilter.Manufacturers)
+        console.log(productsFilter.PriceFrom)
         
         $.ajax({
             type: "POST",

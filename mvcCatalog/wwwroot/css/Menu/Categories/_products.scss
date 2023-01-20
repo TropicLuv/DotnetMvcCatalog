@@ -7,55 +7,119 @@
   .filter_menu {
     width: 100%;
     font-weight: 350;
+    padding-top: 10px;
+    align-items: center;
 
     .filter_title {
       font-size: 15px;
     }
 
-    padding-top: 10px;
-    //padding-left: 15px;
-    justify-content: center;
-
     .sub-section {
-      //padding: 5px;
+      transition: 0.4s ease;
+      position: relative;
+      padding: 10px;
+      width: 100%;
+      display: flex;
+      border-radius: 10px;
+      overflow: hidden;
+      border-bottom: 1px solid #e6e6e6;
+      border-top: 1px solid #e6e6e6;
+
+      ul {
+        padding: 0;
+        margin: 0;
+      }
+
+      .checkbox-centered {
+        text-align: center;
+      }
 
       .filter_sub_title {
-        margin-left: 50%;
+        text-align: center;
+        width: 100%;
+        padding: 2px;
+        border-radius: 2px;
+        font-weight: 550;
+        font-size: 15px;
+      }
+
+      .price_range {
+        text-align: start;
+        display: inline-flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+
+        .priceMinMax {
+          font-weight: 150;
+          border-radius: 7px;
+          border-width: 1px;
+          width: 100px;
+        }
+
+        .button_for_price {
+          //aspect-ratio: 1/1;
+          margin-top: 30px;
+          margin-left: 10px;
+          font-weight: 150;
+          font-size: 15px;
+          width: 50px;
+          height: 50px;
+          border-radius: 10px;
+          border-width: 1px;
+
+        }
       }
     }
   }
 
-  .filter_menu > .sub-section {
-
-    display: block;
-    margin: 15px 14px;
-
+  div .filter_menu {
+    .sub-section {
+      margin-bottom: 0;
+    }
   }
 
+  .filter_menu > .sub-section {
+    display: block;
+    margin: 15px 14px;
+  }
+
+  .sub-section > * {
+    margin-bottom: 3px;
+  }
 
   .products {
+    margin-left: 12px;
     width: 100%;
-    //padding-right: 3%;
 
     .product-element {
+      animation-name: uprise;
+      animation-duration: 0.2s;
+      animation-timing-function: ease-in-out;
+
       position: relative;
       height: 25vmin;
       width: 100%;
       display: flex;
-      flex-wrap: wrap;
-      margin: 15px;
-      padding: 1px;
+      //flex-wrap: wrap;
+      //margin: 15px;
+      //padding: 1px;
+      margin-bottom: 30px;
+      margin-left: 15px;
       border-radius: 5px;
 
       cursor: pointer;
-      transition: 0.25s;
+      overflow: hidden;
+      transition: 0.2s;
+
+      //border: 1px solid black;
+
 
       //justify-content: flex-start;
       //align-items: flex-start;
       //align-content: flex-start;
 
+
       .picture {
-        //flex-shrink: 0;
         border-radius: 5px;
         object-fit: contain;
         height: 100%;
@@ -63,7 +127,7 @@
       }
 
       .name_and_description {
-        width: 50%;
+        width: 60%;
 
         .name {
           font-size: 25px;
@@ -80,7 +144,19 @@
       .description {
         padding-left: 10px;
         padding-top: 5px;
+        word-wrap: break-word;
+        overflow: hidden;
+        max-height: 3em;
+        line-height: 1.2em;
+        text-align: justify;
       }
+
+      .description::after {
+        content: "...";
+        right: -12px;
+        bottom: 4px;
+      }
+
 
       .price {
         position: absolute;
@@ -92,18 +168,25 @@
         font-weight: 150;
         color: #222;
         letter-spacing: 1px;
-        text-transform: uppercase;
+        //text-transform: uppercase;
         transition: 0.5s;
+
+
       }
 
     }
   }
 }
 
+//TODO-HOVERING
 
 .product-element:hover {
-  transition: 0.25s;
-  background-color: rgba(19, 25, 29, 0.05);
+  transition: 0.3s !important;
+  //background-size: 350% 100% !important;
+
+  //background-color: rgba(19, 25, 29, 0.05);
+
+
   //box-shadow: 0 0 5px rgba(19, 25, 29, 0.4);
 
   .price {
@@ -115,15 +198,19 @@
   }
 
   .picture {
-    box-shadow: 5px 0 35px rgba(19, 25, 29, 0.1);
+    transition: 0.3s !important;
+
+    //box-shadow: 2px 0 15px rgba(19, 25, 29, 0.29);
 
   }
+}
 
+.sub-section:hover {
+  transition: 0.4s ease;
+  //background-size: 200% 150% !important;
 
-  //.price{
-  //  transition: 0.2s;
-  //  color: black;
-  //  text-shadow: 0 0 5px #151515
+  //.hover_gradient{
+  //  background-size: 100% 100% !important;
   //}
 
 }
@@ -137,4 +224,48 @@
   to {
     -webkit-mask-position: -50%;
   }
+}
+
+@keyframes uprise {
+  0% {
+    opacity: 0.0;
+  }
+
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .description {
+    display: none;
+  }
+  .filter_menu {
+    display: none;
+  }
+  .product_view {
+    display: flex;
+
+    //grid-template-columns: auto;
+    width: 95%;
+  }
+  .product-element {
+    margin-left: 0 !important;
+
+    .price {
+      font-size: 13px !important;
+      font-weight: 350 !important;
+      color: black !important;
+      //letter-spacing: 1px;
+    }
+
+    .name {
+      font-size: 17px !important;
+      font-weight: 350 !important;
+    }
+
+  }
+
+
 }

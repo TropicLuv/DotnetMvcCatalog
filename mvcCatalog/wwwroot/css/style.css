@@ -152,32 +152,87 @@
   width: 100%;
   font-weight: 350;
   padding-top: 10px;
-  justify-content: center;
+  align-items: center;
 }
 .product_view .filter_menu .filter_title {
   font-size: 15px;
 }
+.product_view .filter_menu .sub-section {
+  transition: 0.4s ease;
+  position: relative;
+  padding: 10px;
+  width: 100%;
+  display: flex;
+  border-radius: 10px;
+  overflow: hidden;
+  border-bottom: 1px solid #e6e6e6;
+  border-top: 1px solid #e6e6e6;
+}
+.product_view .filter_menu .sub-section ul {
+  padding: 0;
+  margin: 0;
+}
+.product_view .filter_menu .sub-section .checkbox-centered {
+  text-align: center;
+}
 .product_view .filter_menu .sub-section .filter_sub_title {
-  margin-left: 50%;
+  text-align: center;
+  width: 100%;
+  padding: 2px;
+  border-radius: 2px;
+  font-weight: 550;
+  font-size: 15px;
+}
+.product_view .filter_menu .sub-section .price_range {
+  text-align: start;
+  display: inline-flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.product_view .filter_menu .sub-section .price_range .priceMinMax {
+  font-weight: 150;
+  border-radius: 7px;
+  border-width: 1px;
+  width: 100px;
+}
+.product_view .filter_menu .sub-section .price_range .button_for_price {
+  margin-top: 30px;
+  margin-left: 10px;
+  font-weight: 150;
+  font-size: 15px;
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  border-width: 1px;
+}
+.product_view div .filter_menu .sub-section {
+  margin-bottom: 0;
 }
 .product_view .filter_menu > .sub-section {
   display: block;
   margin: 15px 14px;
 }
+.product_view .sub-section > * {
+  margin-bottom: 3px;
+}
 .product_view .products {
+  margin-left: 12px;
   width: 100%;
 }
 .product_view .products .product-element {
+  animation-name: uprise;
+  animation-duration: 0.2s;
+  animation-timing-function: ease-in-out;
   position: relative;
   height: 25vmin;
   width: 100%;
   display: flex;
-  flex-wrap: wrap;
-  margin: 15px;
-  padding: 1px;
+  margin-bottom: 30px;
+  margin-left: 15px;
   border-radius: 5px;
   cursor: pointer;
-  transition: 0.25s;
+  overflow: hidden;
+  transition: 0.2s;
 }
 .product_view .products .product-element .picture {
   border-radius: 5px;
@@ -186,7 +241,7 @@
   transition: 0.2s;
 }
 .product_view .products .product-element .name_and_description {
-  width: 50%;
+  width: 60%;
 }
 .product_view .products .product-element .name_and_description .name {
   font-size: 25px;
@@ -201,6 +256,16 @@
 .product_view .products .product-element .description {
   padding-left: 10px;
   padding-top: 5px;
+  word-wrap: break-word;
+  overflow: hidden;
+  max-height: 3em;
+  line-height: 1.2em;
+  text-align: justify;
+}
+.product_view .products .product-element .description::after {
+  content: "...";
+  right: -12px;
+  bottom: 4px;
 }
 .product_view .products .product-element .price {
   position: absolute;
@@ -210,13 +275,11 @@
   font-weight: 150;
   color: #222;
   letter-spacing: 1px;
-  text-transform: uppercase;
   transition: 0.5s;
 }
 
 .product-element:hover {
-  transition: 0.25s;
-  background-color: rgba(19, 25, 29, 0.05);
+  transition: 0.3s !important;
 }
 .product-element:hover .price {
   transition: 0.2s;
@@ -226,7 +289,11 @@
   animation-timing-function: linear;
 }
 .product-element:hover .picture {
-  box-shadow: 5px 0 35px rgba(19, 25, 29, 0.1);
+  transition: 0.3s !important;
+}
+
+.sub-section:hover {
+  transition: 0.4s ease;
 }
 
 @-webkit-keyframes shine {
@@ -235,6 +302,38 @@
   }
   to {
     -webkit-mask-position: -50%;
+  }
+}
+@keyframes uprise {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@media only screen and (max-width: 800px) {
+  .description {
+    display: none;
+  }
+  .filter_menu {
+    display: none;
+  }
+  .product_view {
+    display: flex;
+    width: 95%;
+  }
+  .product-element {
+    margin-left: 0 !important;
+  }
+  .product-element .price {
+    font-size: 13px !important;
+    font-weight: 350 !important;
+    color: black !important;
+  }
+  .product-element .name {
+    font-size: 17px !important;
+    font-weight: 350 !important;
   }
 }
 html {
@@ -248,6 +347,12 @@ html {
 }
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 html {
