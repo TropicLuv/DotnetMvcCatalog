@@ -1,0 +1,140 @@
+﻿
+.product_view {
+  display: grid;
+  grid-template-columns: 170px auto;
+  margin-right: 3%;
+
+  .filter_menu {
+    width: 100%;
+    font-weight: 350;
+
+    .filter_title {
+      font-size: 15px;
+    }
+
+    padding-top: 10px;
+    //padding-left: 15px;
+    justify-content: center;
+
+    .sub-section {
+      //padding: 5px;
+
+      .filter_sub_title {
+        margin-left: 50%;
+      }
+    }
+  }
+
+  .filter_menu > .sub-section {
+
+    display: block;
+    margin: 15px 14px;
+
+  }
+
+
+  .products {
+    width: 100%;
+    //padding-right: 3%;
+
+    .product-element {
+      position: relative;
+      height: 25vmin;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      margin: 15px;
+      padding: 1px;
+      border-radius: 5px;
+
+      cursor: pointer;
+      transition: 0.25s;
+
+      //justify-content: flex-start;
+      //align-items: flex-start;
+      //align-content: flex-start;
+
+      .picture {
+        //flex-shrink: 0;
+        border-radius: 5px;
+        object-fit: contain;
+        height: 100%;
+        transition: 0.2s;
+      }
+
+      .name_and_description {
+        width: 50%;
+
+        .name {
+          font-size: 25px;
+          height: 10px;
+          letter-spacing: 0.3px;
+          font-weight: 250;
+          transition: 0.2s;
+          padding-left: 10px;
+          padding-top: 5px;
+          color: #151515;
+        }
+      }
+
+      .description {
+        padding-left: 10px;
+        padding-top: 5px;
+      }
+
+      .price {
+        position: absolute;
+        right: 15px;
+        bottom: 50%;
+
+        font-size: 19px;
+
+        font-weight: 150;
+        color: #222;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        transition: 0.5s;
+      }
+
+    }
+  }
+}
+
+
+.product-element:hover {
+  transition: 0.25s;
+  background-color: rgba(19, 25, 29, 0.05);
+  //box-shadow: 0 0 5px rgba(19, 25, 29, 0.4);
+
+  .price {
+    transition: 0.2s;
+    -webkit-mask-image: linear-gradient(-75deg, rgba(0, 0, 0, .6) 40%, #000 10%, rgba(0, 0, 0, .6) 80%);
+    -webkit-mask-size: 200%;
+    animation: shine 2s infinite;
+    animation-timing-function: linear;
+  }
+
+  .picture {
+    box-shadow: 5px 0 35px rgba(19, 25, 29, 0.1);
+
+  }
+
+
+  //.price{
+  //  transition: 0.2s;
+  //  color: black;
+  //  text-shadow: 0 0 5px #151515
+  //}
+
+}
+
+
+@-webkit-keyframes shine {
+  from {
+    -webkit-mask-position: 150%;
+  }
+
+  to {
+    -webkit-mask-position: -50%;
+  }
+}

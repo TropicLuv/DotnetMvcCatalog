@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Category>
+
+@{
+    ViewData["Title"] = "Children Categories";
+}
+
+
+<div id="list-categories" class="container_children_categories col-9">
+    @foreach (var category in Model)
+    {
+        <form class="children_category" asp-controller="Menu" asp-action="Products" method="get" onclick="this.submit()">
+                @* <img class="card-img-top" src="..." alt="Card image cap"> *@
+
+                <img class="picture" src="https://picsum.photos/200" alt="">
+                <div class="text">
+                    <h5>
+                        @Html.DisplayFor(modelItem => category.CategoryName)
+                    </h5>
+                    @*<p>
+                        @Html.DisplayFor(modelItem => category.Description)
+                    </p>*@
+                    <p class="tap_here"><> Tap Here </p>
+                </div>
+                <input type="hidden" name="categoryId" value="@category.CategoryId.ToString()" />
+        </form>
+    }
+</div>
+
+
+@section Scripts
+{
+
+
+}

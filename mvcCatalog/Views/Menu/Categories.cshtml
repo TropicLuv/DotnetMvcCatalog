@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Category>
+
+@{
+    ViewData["Title"] = "Categories";
+
+}
+
+@* <h1>Categories</h1> *@
+
+<div id="content" class="Categories">
+    <div id="list" class="container_categories">
+        @foreach (var category in Model)
+        {
+            <div data-id="@category.CategoryId.ToString()" class="category">
+                @* <img class="card-img-top" src="..." alt="Card image cap"> *@
+
+                <span class="category_title">
+                    @Html.DisplayFor(modelItem => category.CategoryName)
+                </span>
+
+            </div>
+        }
+    </div>
+    <div id="subCategories"></div>
+</div>
+
+
+@* @{  *@
+@*     var a = new Dictionary<string, string> { { "categoryId", "15" } }; *@
+@* } *@
+@* <a asp-controller="Menu" asp-action="PartialProducts" asp-all-route-data="a">Tap Me</a> *@
+
+
+
+
+@section Scripts
+{
+    <script>
+    $(document).ready(function() {
+        $("#list div").click(function() {
+            let categoryId = $(this).data("id");
+            $.ajax({
+                type: "GET",
+                url: "PartialCategories",
+                data: { categoryId: categoryId },
+                success: function(result) {
+                    $("#subCategories").html(result);
+                }
+            });
+        });
+    });
+    </script>
+}

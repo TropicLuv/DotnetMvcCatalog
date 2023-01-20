@@ -1,0 +1,91 @@
+﻿@model ProductView
+
+@{
+    ViewData["Title"] = "Products";
+    Layout = "_Layout";
+
+}
+
+
+<h1>Products</h1>
+
+<input id="categoryId" value="@Model.CategoryId">
+
+<a asp-area="" asp-controller="Menu" asp-action="Categories">Tel</a>
+<div class="product_view">
+    <form class="filter_menu" onchange="submitForm(); return false;">
+
+        @* <span class="filter_title">Workable Example</span> *@
+
+        <div class="sub-section">
+            <span class="filter_sub_title">Price</span>
+            <div class="price_range">
+                <span>from</span>
+                <br>
+                <input type="number">
+                <br>
+                <span>to</span>
+                <br>
+                <input type="number">
+            </div>
+        </div>
+
+        <p class="sub-section">
+            <label for="isDiscount">Discount</label>
+            <input type="checkbox" id="isDiscount" name="IsDiscount" value="Discount">
+        </p>
+        <p class="sub-section">
+            <label for="manufacturer">Manufacturer</label>
+            <ul id="manufacturer">
+                @foreach (var manufacturer in Model.Manufacturers)
+                {
+                    <li>
+                        <input type="checkbox" id="@manufacturer" name="Manufacturer" value="@manufacturer">
+                        <label for="@manufacturer">@manufacturer</label>
+                    </li>
+                }
+            </ul>
+        </p>
+        @* <span class="filter_title">non-Workable Example</span> *@
+    </form>
+    <div id="products" class="products">
+        @Html.Partial("_Products", Model.ProductsAndPrices);
+    </div>
+
+</div>
+
+
+@section Scripts
+{
+    <script>
+    function submitForm(){
+        let categoryId = document.getElementById("categoryId").value;
+        let productsFilter = {
+            Manufacturers: [],
+            IsDiscount: false,
+            }
+        
+        let manufacturers = document.getElementsByName("Manufacturer");
+        
+        if (document.getElementsByName("IsDiscount")[0].checked){
+            productsFilter.IsDiscount = true;
+        }
+        for (let i = 0; i < manufacturers.length; i++){
+            if (manufacturers[i].checked){
+                productsFilter.Manufacturers.push(manufacturers[i].value);
+            } 
+        }
+        console.log(productsFilter.Manufacturers)
+        
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Products", "Menu")",
+            data: {categoryId, productsFilter},
+            success: function(data) {
+              // update the DOM with the new HTML
+              $("#products").html(data);
+            }
+          });
+    }
+    </script>
+}

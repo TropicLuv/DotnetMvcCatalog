@@ -1,0 +1,30 @@
+﻿@model Dictionary<Product, Tuple<decimal, decimal>?>
+
+@{
+    Layout = null;
+}
+
+
+@foreach (var element in Model)
+{
+    var price = "";
+
+    @if (element.Value == null)
+    {
+        price = "No Sellers";
+    }
+    else
+    {
+        // TODO - Change to min-max price
+        price = element.Value.Item1 + "$";
+    }
+    <div class="product-element">
+        <img class="picture" src="https://picsum.photos/200" alt="">
+        <div class="name_and_description">
+            <span class="name" id="@element.Key.ProductId.ToString()">@element.Key.ProductName</span>
+            <br>
+            <p class="description">@element.Key.ProductDescription</p>
+        </div>
+        <span class="price">@price</span>
+    </div>
+}
