@@ -7,4 +7,5 @@ public interface IProductRepository
     public IQueryable<Product> GetByCategoryId(int categoryId);
     public IQueryable<Product> isDiscountByCategoryId(int categoryId);
     public IQueryable<Product> GetEmptyQuery();
+    public Task<IQueryable<Product>> GetSimilarByName(int productId);
 }

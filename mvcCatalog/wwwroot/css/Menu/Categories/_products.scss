@@ -4,6 +4,10 @@
   grid-template-columns: 170px auto;
   margin-right: 3%;
 
+  a {
+    all: unset;
+  }
+
   .filter_menu {
     width: 100%;
     font-weight: 350;

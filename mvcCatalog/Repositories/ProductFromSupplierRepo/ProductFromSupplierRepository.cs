@@ -12,6 +12,7 @@ public class ProductFromSupplierRepository : GenericRepository<ProductFromSuppli
     }
 
     [SuppressMessage("ReSharper.DPA", "DPA0006: Large number of DB commands", MessageId = "count: 265")]
+    [SuppressMessage("ReSharper.DPA", "DPA0006: Large number of DB commands", MessageId = "count: 905")]
     public Tuple<decimal, decimal>? GetMinMaxPriceByProductId(int productId)
     {
         var minMaxPrices = _dbSet

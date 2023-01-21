@@ -58,15 +58,11 @@ public class MenuController : Controller
         var PriceRange = new Tuple<int, int>(productsFilter.PriceFrom, productsFilter.PriceTo);
 
         if (PriceRange.Item1 == 0 && PriceRange.Item2 == 0)
-        {
             products = _repo.ProductRepo.GetByCategoryId(int.Parse(categoryId));
-        }
         else
-        {
             products =
                 _repo.ProductFromSupplierRepo.GetProductsByPriceRangeAndCategoryId(int.Parse(categoryId), PriceRange);
-        }
-        
+
         if (productsFilter.IsDiscount)
             products = _repo.ProductRepo.isDiscountByCategoryId(int.Parse(categoryId));
 
@@ -100,8 +96,36 @@ public class MenuController : Controller
         return PartialView("_ChildrenCategories", childrenCategories);
     }
 
-    public async Task<IActionResult> Product(string productId)
+    public async Task<IActionResult> SingleProductView(string productId, string categoryId)
     {
-        return null;
+        var product = await _repo.ProductRepo.getById(int.Parse(productId));
+        var similarProductsQuery = await _repo.ProductRepo.GetSimilarByName(int.Parse(productId));
+
+
+        /*from p in similarProductsQuery
+        where p.CategoryId == int.Parse(categoryId)
+        select p;*/
+        var products = await similarProductsQuery.ToListAsync();
+
+        var similarProducts = new Dictionary<Product, Tuple<decimal, decimal>>();
+        foreach (var similarProduct in products)
+        {
+            var similarProductPriceRange =
+                _repo.ProductFromSupplierRepo.GetMinMaxPriceByProductId(similarProduct.ProductId);
+            if (similarProductPriceRange != null && similarProduct.ProductId != int.Parse(productId))
+                similarProducts.Add(
+                    similarProduct,
+                    similarProductPriceRange
+                );
+        }
+
+        var model = new SingleProductView
+        {
+            ProductWithPriceRange = new Tuple<Product, Tuple<decimal, decimal>>(
+                product, _repo.ProductFromSupplierRepo.GetMinMaxPriceByProductId(product.ProductId)
+            ),
+            SimilarProductsWithPriceRange = similarProducts
+        };
+        return View(model);
     }
 }

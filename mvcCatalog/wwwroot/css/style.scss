@@ -1,7 +1,7 @@
 @import "Menu/Categories/categories";
 @import "Menu/Categories/childrenCategories";
 @import "Menu/Categories/products";
-
+@import "Menu/Categories/singleProduct";
 
 html {
   font-size: 14px;
@@ -38,5 +38,23 @@ body {
 ul {
   list-style-type: none;
 }
+
+.button_back {
+  transition: 0.2s ease-in-out;
+  height: 40px;
+  aspect-ratio: 7/2;
+  margin-left: 20px;
+  background-color: #2c3034;
+  padding: 5px;
+  color: white;
+  font-size: 16px;
+  font-weight: 380;
+  border-radius: 10px;
+
+}
+
+  
+
+
 
  

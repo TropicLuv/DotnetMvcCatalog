@@ -25,6 +25,43 @@ public static class SeedData
                 Year = 2022,
                 Manufacturer = "Apple"
             };
+            
+            var p3 = new Product
+            {
+                Image = "123",
+                ProductName = "iPhone 13",
+                ProductDescription = "Lorem Ipsum is simply dummy text of the printing and" +
+                                     " typesetting industry. Lorem Ipsum has been the industry's" +
+                                     " standard dummy text ever since the 1500s.",
+                Features = "features",
+                Year = 2021,
+                Manufacturer = "Apple"
+            };
+            
+            var p4 = new Product
+            {
+                Image = "123",
+                ProductName = "iPhone 12",
+                ProductDescription = "Lorem Ipsum is simply dummy text of the printing and" +
+                                     " typesetting industry. Lorem Ipsum has been the industry's" +
+                                     " standard dummy text ever since the 1500s.",
+                Features = "features",
+                Year = 2020,
+                Manufacturer = "Apple"
+            };
+            
+            var p5 = new Product
+            {
+                Image = "123",
+                ProductName = "iPhone 12 Pro",
+                ProductDescription = "Lorem Ipsum is simply dummy text of the printing and" +
+                                     " typesetting industry. Lorem Ipsum has been the industry's" +
+                                     " standard dummy text ever since the 1500s.",
+                Features = "features",
+                Year = 2020,
+                Manufacturer = "Apple"
+            };
+            
             var s1 = new Supplier
             {
                 SupplierName = "Alta"
@@ -37,7 +74,7 @@ public static class SeedData
             {
                 SupplierName = "On Line"
             };
-
+                                                //pfs1,pfs2,pfs3 for iPhone 14
             var pfs1 = new ProductFromSupplier
             {
                 Price = (decimal)1100.99,
@@ -60,8 +97,38 @@ public static class SeedData
                 IsDiscount = true,
                 NewPrice = (decimal)1199.99,
             };
+            
+                                                    //pfs4 for iPhone 13
+             var pfs4 = new ProductFromSupplier
+            {
+                Price = (decimal)1069.99,
+                Product = p3,
+                Supplier = s3,
+                IsDiscount = true,
+                NewPrice = (decimal)999.99,
+            };
+             
+                                                        //pfs5 for iPhone 12
+             var pfs5 = new ProductFromSupplier
+             {
+                 Price = (decimal)869.99,
+                 Product = p4,
+                 Supplier = s1,
+                 IsDiscount = false,
+             };
+             
+                                                       //pfs5 for iPhone 12
+             var pfs6 = new ProductFromSupplier
+             {
+                 Price = (decimal)1109.99,
+                 Product = p5,
+                 Supplier = s1,
+                 IsDiscount = true,
+                 NewPrice = (decimal)999.99,
 
-            context.ProductsFromSuppliers.AddRange(pfs1, pfs2, pfs3);
+             };
+
+            context.ProductsFromSuppliers.AddRange(pfs1, pfs2, pfs3, pfs4, pfs5, pfs6);
 
             var p2 = new Product
             {
@@ -74,39 +141,9 @@ public static class SeedData
                 Year = 2022,
                 Manufacturer = "Apple"
             };
-            var p3 = new Product
-            {
-                Image = "123",
-                ProductName = "iPhone 13",
-                ProductDescription = "Lorem Ipsum is simply dummy text of the printing and" +
-                                     " typesetting industry. Lorem Ipsum has been the industry's" +
-                                     " standard dummy text ever since the 1500s.",
-                Features = "features",
-                Year = 2021,
-                Manufacturer = "Apple"
-            };
-            var p4 = new Product
-            {
-                Image = "123",
-                ProductName = "iPhone 12",
-                ProductDescription = "Lorem Ipsum is simply dummy text of the printing and" +
-                                     " typesetting industry. Lorem Ipsum has been the industry's" +
-                                     " standard dummy text ever since the 1500s.",
-                Features = "features",
-                Year = 2020,
-                Manufacturer = "Apple"
-            };
-            var p5 = new Product
-            {
-                Image = "123",
-                ProductName = "iPhone 12 Pro",
-                ProductDescription = "Lorem Ipsum is simply dummy text of the printing and" +
-                                     " typesetting industry. Lorem Ipsum has been the industry's" +
-                                     " standard dummy text ever since the 1500s.",
-                Features = "features",
-                Year = 2020,
-                Manufacturer = "Apple"
-            };
+            
+            
+            
             var p6 = new Product
             {
                 Image = "123",

@@ -11,10 +11,13 @@
 
 <input id="categoryId" value="@Model.CategoryId" hidden="hidden">
 
-<a asp-area="" asp-controller="Menu" asp-action="Categories">Tel</a>
+<button class="button_back" onclick="location.href='@Url.Action("Categories", "Menu")'">Back</button>
+
 <div class="product_view">
     <div>
+
         <div class="filter_menu">
+
             <form class="sub-section" onsubmit="submitForm(); return false;">
                 <label class="filter_sub_title">Price</label>
                 <div class="price_range">
@@ -110,10 +113,11 @@
             url: "@Url.Action("Products", "Menu")",
             data: {categoryId, productsFilter},
             success: function(data) {
-              // update the DOM with the new HTML
               $("#products").html(data);
             }
           });
     }
+    
+    
     </script>
 }

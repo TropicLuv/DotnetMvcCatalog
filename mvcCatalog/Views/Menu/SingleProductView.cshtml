@@ -1,0 +1,41 @@
+﻿@model SingleProductView
+
+@{
+    ViewData["Title"] = "SingleProductView";
+}
+
+
+@{ var product = Model.ProductWithPriceRange.Item1; }
+
+<div class="single_product_view">
+
+
+    <div class="info_and_photos">
+        <img class="main_picture" src="https://picsum.photos/200" alt="">
+        <div class="name_and_description">
+            <span class="name">@product.ProductName</span>
+            <p class="description">@product.ProductDescription</p>
+        </div>
+
+    </div>
+    <ul class="photos_list">
+        @for (var i = 0; i < 10; i++)
+        {
+            <li class="">
+                <img class="picture" src="https://picsum.photos/200" alt="">
+            </li>
+        }
+    </ul>
+
+    <ul class="similar_products">
+        @foreach (var similarProduct in Model.SimilarProductsWithPriceRange)
+        {
+            var productSimilar = similarProduct.Key;
+            <li id="@productSimilar.ProductId.ToString()">
+                @productSimilar.ProductName
+            </li>
+        }
+    </ul>
+
+
+</div>
