@@ -13,9 +13,9 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
-builder.Services.AddScoped<ProductRepository>();
-builder.Services.AddScoped<CategoryRepository>();
-builder.Services.AddScoped<ProductFromSupplierRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IProductFromSupplierRepository, ProductFromSupplierRepository>();
 
 builder.Services.AddScoped<AppRepository>();
 

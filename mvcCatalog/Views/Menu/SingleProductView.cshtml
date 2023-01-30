@@ -8,34 +8,46 @@
 @{ var product = Model.ProductWithPriceRange.Item1; }
 
 <div class="single_product_view">
+    <div class="info">
 
 
-    <div class="info_and_photos">
-        <img class="main_picture" src="https://picsum.photos/200" alt="">
-        <div class="name_and_description">
-            <span class="name">@product.ProductName</span>
-            <p class="description">@product.ProductDescription</p>
+        <div class="info_and_photos">
+            <img class="main_picture" src="https://picsum.photos/200" alt="">
+            <div class="name_and_description">
+                <span class="name">@product.ProductName</span>
+                <p class="description_single_product">@product.ProductDescription</p>
+            </div>
+
         </div>
-
+        <ul class="photos_list">
+            @for (var i = 0; i < 10; i++)
+            {
+                <li class="">
+                    <img class="picture" src="https://picsum.photos/200" alt="">
+                </li>
+            }
+        </ul>
+        <ul class="similar_products">
+            @foreach (var similarProduct in Model.SimilarProductsWithPriceRange)
+            {
+                var productSimilar = similarProduct.Key;
+                <li id="@productSimilar.ProductId.ToString()">
+                    @productSimilar.ProductName
+                </li>
+            }
+        </ul>
     </div>
-    <ul class="photos_list">
-        @for (var i = 0; i < 10; i++)
-        {
-            <li class="">
-                <img class="picture" src="https://picsum.photos/200" alt="">
-            </li>
-        }
-    </ul>
 
-    <ul class="similar_products">
-        @foreach (var similarProduct in Model.SimilarProductsWithPriceRange)
+    <section class="single_product_sellers">
+        @foreach (var seller in product.ProductFromSuppliers)
         {
-            var productSimilar = similarProduct.Key;
-            <li id="@productSimilar.ProductId.ToString()">
-                @productSimilar.ProductName
-            </li>
-        }
-    </ul>
+            <div class="seller @(seller.IsDiscount ? "discount" : "")">
+                <h4>@seller.Supplier.SupplierName</h4>
+                <h5>@(seller.IsDiscount ? seller.NewPrice.ToString() : seller.Price.ToString()) $</h5>
 
+            </div>
+        }
+
+    </section>
 
 </div>

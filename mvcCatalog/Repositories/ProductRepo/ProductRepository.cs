@@ -1,13 +1,23 @@
-﻿using mvcCatalog.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using mvcCatalog.Data;
 using mvcCatalog.Models;
 using mvcCatalog.Repositories.GenericRepository;
 
 namespace mvcCatalog.Repositories.ProductRepo;
 
 public class ProductRepository : GenericRepository<Product>, IProductRepository
+
+
 {
     public ProductRepository(DataContext context) : base(context.Products)
     {
+    }
+
+    public Product? GetByIdIncludingSuppliers(int id)
+    {
+        return _dbSet.Where(p => p.ProductId == id)
+            .Include(p => p.ProductFromSuppliers).ThenInclude(pfs => pfs.Supplier)
+            .FirstOrDefault();
     }
 
     public IQueryable<Product> GetByCategoryId(int categoryId)

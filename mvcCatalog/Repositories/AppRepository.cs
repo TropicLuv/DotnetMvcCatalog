@@ -6,15 +6,15 @@ namespace mvcCatalog.Repositories;
 
 public class AppRepository
 {
-    public AppRepository(ProductRepository productRepo, CategoryRepository categoryRepo,
-        ProductFromSupplierRepository productFromSupplierRepo)
+    public AppRepository(IProductRepository productRepo, ICategoryRepository categoryRepo,
+        IProductFromSupplierRepository productFromSupplierRepo)
     {
         ProductRepo = productRepo;
         CategoryRepo = categoryRepo;
         ProductFromSupplierRepo = productFromSupplierRepo;
     }
 
-    public ProductRepository ProductRepo { get; }
-    public CategoryRepository CategoryRepo { get; }
-    public ProductFromSupplierRepository ProductFromSupplierRepo { get; }
+    public IProductRepository ProductRepo { get; }
+    public ICategoryRepository CategoryRepo { get; }
+    public IProductFromSupplierRepository ProductFromSupplierRepo { get; }
 }

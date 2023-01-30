@@ -1,8 +1,8 @@
 ﻿
 .product_view {
   display: grid;
-  grid-template-columns: 170px auto;
-  margin-right: 3%;
+  grid-template-columns: 200px auto;
+  //margin-right: 3%;
 
   a {
     all: unset;
@@ -18,10 +18,16 @@
       font-size: 15px;
     }
 
+    form {
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
     .sub-section {
+
+      padding-left: 10% !important;
       transition: 0.4s ease;
       position: relative;
-      padding: 10px;
       width: 100%;
       display: flex;
       border-radius: 10px;
@@ -77,9 +83,16 @@
   }
 
   div .filter_menu {
+
     .sub-section {
       margin-bottom: 0;
     }
+  }
+
+  div .sub-section {
+    padding: 0 !important;
+    margin: 0 !important;
+
   }
 
   .filter_menu > .sub-section {
@@ -91,9 +104,14 @@
     margin-bottom: 3px;
   }
 
+  ul {
+    padding: 0;
+  }
+
   .products {
-    margin-left: 12px;
+    padding-left: 10px;
     width: 100%;
+    margin-right: 0;
 
     .product-element {
       animation-name: uprise;
@@ -107,9 +125,12 @@
       //flex-wrap: wrap;
       //margin: 15px;
       //padding: 1px;
-      margin-bottom: 30px;
-      margin-left: 15px;
-      border-radius: 5px;
+      padding-bottom: 5px;
+      padding-top: 5px;
+      padding-left: 5px;
+      border-radius: 10px;
+      border-bottom-right-radius: 0;
+      border-top-right-radius: 0;
 
       cursor: pointer;
       overflow: hidden;
@@ -186,12 +207,13 @@
 
 .product-element:hover {
   transition: 0.3s !important;
+  //background-color: rgba(19, 25, 29, 0.15);
   //background-size: 350% 100% !important;
 
   //background-color: rgba(19, 25, 29, 0.05);
 
 
-  //box-shadow: 0 0 5px rgba(19, 25, 29, 0.4);
+  box-shadow: 0 0 40px rgba(19, 25, 29, 0.3);
 
   .price {
     transition: 0.2s;
@@ -241,7 +263,7 @@
   }
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1000px) {
   .description {
     display: none;
   }
@@ -252,7 +274,7 @@
     display: flex;
 
     //grid-template-columns: auto;
-    width: 95%;
+    width: 100%;
   }
   .product-element {
     margin-left: 0 !important;

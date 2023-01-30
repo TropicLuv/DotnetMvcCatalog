@@ -11,7 +11,6 @@
 
 <input id="categoryId" value="@Model.CategoryId" hidden="hidden">
 
-<button class="button_back" onclick="location.href='@Url.Action("Categories", "Menu")'">Back</button>
 
 <div class="product_view">
     <div>
@@ -60,9 +59,9 @@
         </form>
     </div>
 
-    <div id="products" class="products">
+    <ul id="products" class="products">
         @Html.Partial("_Products", Model.ProductsAndPrices)
-    </div>
+    </ul>
 
 </div>
 

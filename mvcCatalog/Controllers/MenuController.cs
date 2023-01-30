@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using mvcCatalog.Models;
 using mvcCatalog.Repositories;
@@ -85,7 +86,6 @@ public class MenuController : Controller
             minMaxProductPrices.Add(product, productMinMaxPrices);
         }
 
-        Console.WriteLine(productsFilter.PriceFrom);
 
         return PartialView("_Products", minMaxProductPrices);
     }
@@ -96,15 +96,13 @@ public class MenuController : Controller
         return PartialView("_ChildrenCategories", childrenCategories);
     }
 
+    [SuppressMessage("ReSharper.DPA", "DPA0006: Large number of DB commands", MessageId = "count: 972")]
     public async Task<IActionResult> SingleProductView(string productId, string categoryId)
     {
-        var product = await _repo.ProductRepo.getById(int.Parse(productId));
+        var product = _repo.ProductRepo.GetByIdIncludingSuppliers(int.Parse(productId));
+
         var similarProductsQuery = await _repo.ProductRepo.GetSimilarByName(int.Parse(productId));
 
-
-        /*from p in similarProductsQuery
-        where p.CategoryId == int.Parse(categoryId)
-        select p;*/
         var products = await similarProductsQuery.ToListAsync();
 
         var similarProducts = new Dictionary<Product, Tuple<decimal, decimal>>();
@@ -126,6 +124,9 @@ public class MenuController : Controller
             ),
             SimilarProductsWithPriceRange = similarProducts
         };
+        Console.WriteLine("HHHHHHHHHHHHH");
+        foreach (var supplier in product.ProductFromSuppliers) Console.WriteLine(supplier.Supplier.SupplierName);
+        Console.WriteLine("HHHHHHHHHHHHH");
         return View(model);
     }
 }

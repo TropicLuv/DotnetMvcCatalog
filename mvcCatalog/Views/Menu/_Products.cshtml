@@ -25,7 +25,7 @@
     dataForController.Add("categoryId", element.Key.ProductId.ToString());
 
     <a asp-action="SingleProductView" asp-all-route-data="dataForController">
-        <div id="@element.Key.ProductId.ToString()" class="product-element">
+        <li id="@element.Key.ProductId.ToString()" class="product-element">
             <img class="picture" src="https://picsum.photos/200" alt="">
             <div class="name_and_description">
                 <span class="name" id="@element.Key.ProductId.ToString()">@element.Key.ProductName</span>
@@ -34,6 +34,6 @@
             </div>
             <span class="price">@price</span>
 
-        </div>
+        </li>
     </a>
 }

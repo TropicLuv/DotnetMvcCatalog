@@ -8,20 +8,20 @@
 @* <h1>Categories</h1> *@
 
 <div id="content" class="Categories">
-    <div id="list" class="container_categories">
+    <ul id="list" class="container_categories">
         @foreach (var category in Model)
         {
-            <div data-id="@category.CategoryId.ToString()" class="category">
+            <li data-id="@category.CategoryId.ToString()" class="category @(category.CategoryName == Model.First().CategoryName ? "selected" : "")">
                 @* <img class="card-img-top" src="..." alt="Card image cap"> *@
 
                 <span class="category_title">
                     @Html.DisplayFor(modelItem => category.CategoryName)
                 </span>
 
-            </div>
+            </li>
         }
-    </div>
-    <div id="subCategories"></div>
+    </ul>
+    <div id="subCategories">@Html.Partial("_ChildrenCategories", (Model.First().ChildrenCategories ?? Array.Empty<Category>()).ToList())</div>
 </div>
 
 
@@ -37,8 +37,17 @@
 {
     <script>
     $(document).ready(function() {
-        $("#list div").click(function() {
+        $("#list li").click(function() {
+              $("li").removeClass("selected");
+                $(this).addClass("selected");
+              
             let categoryId = $(this).data("id");
+              
+              
+              
+              
+              
+
             $.ajax({
                 type: "GET",
                 url: "PartialCategories",
@@ -48,6 +57,11 @@
                 }
             });
         });
+        // $(window).resize(function() {
+        //      if ($(window).width() >= 768) {
+        //            $("ul").show();
+        //         }
+        //      });
     });
     </script>
 }
