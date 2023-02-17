@@ -1,0 +1,13 @@
+﻿@model string
+@{
+    Console.WriteLine(Model);
+}
+@{
+    var parms = new Dictionary<string, string>
+    {
+        { "id", Model }
+    };
+}
+<form class="delete_form" asp-action="DeleteCategory" asp-all-route-data="parms" method="post" onclick="this.submit()">
+    X
+</form>

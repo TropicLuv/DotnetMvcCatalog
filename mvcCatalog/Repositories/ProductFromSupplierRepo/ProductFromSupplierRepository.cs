@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using Microsoft.EntityFrameworkCore;
 using mvcCatalog.Data;
 using mvcCatalog.Models;
 using mvcCatalog.Repositories.GenericRepository;
@@ -7,12 +7,18 @@ namespace mvcCatalog.Repositories.ProductFromSupplierRepo;
 
 public class ProductFromSupplierRepository : GenericRepository<ProductFromSupplier>, IProductFromSupplierRepository
 {
-    public ProductFromSupplierRepository(DataContext dataContext) : base(dataContext.ProductsFromSuppliers)
+    public ProductFromSupplierRepository
+        (DataContext dataContext, IServiceProvider serviceProvider) : base(dataContext, serviceProvider)
     {
     }
 
-    [SuppressMessage("ReSharper.DPA", "DPA0006: Large number of DB commands", MessageId = "count: 265")]
-    [SuppressMessage("ReSharper.DPA", "DPA0006: Large number of DB commands", MessageId = "count: 905")]
+
+    public ProductFromSupplier GetByProductIdAndSupplierId(int productId, int supplierId) => _dbSet
+                                             .Where(pfs => pfs.ProductId == productId)
+                                             .Include(pfs => pfs.Product)
+                                             .Include(pfs => pfs.Supplier)
+                                             .First(pfs => pfs.SupplierId == supplierId);
+
     public Tuple<decimal, decimal>? GetMinMaxPriceByProductId(int productId)
     {
         var minMaxPrices = _dbSet

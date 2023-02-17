@@ -1,25 +1,87 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using mvcCatalog.Models;
 using mvcCatalog.Repositories;
+using mvcCatalog.Repositories.Services;
 
 namespace mvcCatalog.Controllers;
 
-public class MenuController : Controller
+public class ProductController : Controller
 {
     private readonly AppRepository _repo;
+    private readonly IServiceProvider _serviceProvider;
 
-    public MenuController(AppRepository repo)
+    public ProductController(AppRepository repo, IServiceProvider serviceProvider)
     {
         _repo = repo;
+        _serviceProvider = serviceProvider;
     }
 
-    public async Task<IActionResult> Categories()
+    public IActionResult Create(string parentCategoryId, string categoryId)
     {
-        if (_repo.CategoryRepo.isNull()) return Problem("Entity was not set");
-        var categories = await _repo.CategoryRepo.getWithNoParent();
-        return View("Categories", categories);
+        ViewData["ParentCategoryId"] = parentCategoryId;
+        ViewData["CategoryId"] = categoryId;
+
+
+        return View();
+    }
+
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public async Task<IActionResult> Create(Product product)
+    {
+        if (ModelState.IsValid)
+        {
+            var category = await _repo.CategoryRepo.getById(product.CategoryId);
+            product.Category = category;
+            await _repo.ProductRepo.Insert(product);
+            return RedirectToAction(nameof(Products), new { categoryId = product.CategoryId.ToString() });
+        }
+
+        var errors = ModelState.Select(x => x.Value.Errors)
+            .Where(y => y.Count > 0)
+            .ToList();
+
+        ValidationProblem(ModelState);
+        return View(product);
+    }
+
+
+    [HttpGet]
+    public IActionResult Edit(string productId)
+    {
+        ViewData["productId"] = productId;
+        return View(_repo.ProductRepo.getByIdIncludingEverything(int.Parse(productId)));
+    }
+
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Edit(Product product)
+    {
+        if (ModelState.IsValid)
+        {
+            _repo.ProductRepo.SetValues(product.ProductId, product);
+            return RedirectToAction(nameof(Products), new { categoryId = product.CategoryId.ToString() });
+        }
+
+        ValidationProblem(ModelState);
+        return View(product);
+    }
+
+    // [HttpGet]
+    // public IActionResult Delete(string id) => View(id);
+
+    [HttpPost]
+    public async void DeleteProduct(string productId)
+    {
+        // await _repo.ProductRepo.Delete(int.Parse(productId));
+        
+        using (var scope = _serviceProvider.CreateScope())
+        {
+            var context = scope.ServiceProvider.GetService<AppRepository>();
+            var deletedProduct = await context.ProductRepo.Delete(int.Parse(productId));
+        }
     }
 
 
@@ -49,9 +111,9 @@ public class MenuController : Controller
         return PartialView("_ProductsView", productView);
     }
 
-
     [HttpPost]
-    public async Task<PartialViewResult> Products(string categoryId,
+    public async Task<PartialViewResult> Products
+    (string categoryId,
         [Bind("Manufacturers", "IsDiscount", "PriceFrom, PriceTo")]
         ProductsFilter productsFilter)
     {
@@ -67,7 +129,6 @@ public class MenuController : Controller
         if (productsFilter.IsDiscount)
             products = _repo.ProductRepo.isDiscountByCategoryId(int.Parse(categoryId));
 
-//TODO - ask koghu/mamuka about  if i use object to find something, using ef 
         if (productsFilter.Manufacturers != null)
             products = products.Where(p => productsFilter.Manufacturers
                 .Contains(p.Manufacturer));
@@ -90,14 +151,8 @@ public class MenuController : Controller
         return PartialView("_Products", minMaxProductPrices);
     }
 
-    public async Task<PartialViewResult> PartialCategories(string categoryId)
-    {
-        var childrenCategories = await _repo.CategoryRepo.GetByParentId(int.Parse(categoryId)).ToListAsync();
-        return PartialView("_ChildrenCategories", childrenCategories);
-    }
 
-    [SuppressMessage("ReSharper.DPA", "DPA0006: Large number of DB commands", MessageId = "count: 972")]
-    public async Task<IActionResult> SingleProductView(string productId, string categoryId)
+    public async Task<IActionResult> SingleProductView(string productId)
     {
         var product = _repo.ProductRepo.GetByIdIncludingSuppliers(int.Parse(productId));
 
@@ -124,9 +179,16 @@ public class MenuController : Controller
             ),
             SimilarProductsWithPriceRange = similarProducts
         };
-        Console.WriteLine("HHHHHHHHHHHHH");
-        foreach (var supplier in product.ProductFromSuppliers) Console.WriteLine(supplier.Supplier.SupplierName);
-        Console.WriteLine("HHHHHHHHHHHHH");
+
         return View(model);
+    }
+    
+    [HttpPost]
+    public IActionResult AddToBucket()
+    {
+        
+        _repo.BucketService.AddProductFromSuppliers();
+
+        return Ok();
     }
 }

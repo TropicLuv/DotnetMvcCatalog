@@ -1,7 +1,9 @@
 @import "Menu/Categories/categories";
 @import "Menu/Categories/childrenCategories";
-@import "Menu/Categories/products";
-@import "Menu/Categories/singleProduct";
+@import "Menu/Categories/createAndUpdate";
+
+@import "Menu/Products/products";
+@import "Menu/Products/singleProduct";
 @import 'animate.css';
 
 html {
@@ -52,6 +54,21 @@ ul {
   font-weight: 380;
   border-radius: 10px;
 
+}
+
+.toBuy{
+  margin-right: 10px;
+  cursor: pointer ;
+  padding-left: 10px;
+  //padding-right: 10px;
+  padding-top: 2px;
+  padding-bottom: 4px;
+  border-radius: 10px;
+  border: 1px solid black;
+  display: inline-flex;
+  font-size: 16px;
+  font-weight: 350;
+  width: 100px;
 }
 
   

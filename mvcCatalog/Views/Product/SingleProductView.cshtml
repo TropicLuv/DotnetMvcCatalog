@@ -1,0 +1,103 @@
+﻿@using mvcCatalog.Repositories.Services
+@model SingleProductView
+@inject IBucketService BucketService
+@{
+    ViewData["Title"] = "SingleProductView";
+}
+
+
+@{ var product = Model.ProductWithPriceRange.Item1; }
+
+<div class="single_product_view">
+    <div class="info">
+
+
+        <div class="info_and_photos">
+            <img class="main_picture" src="https://picsum.photos/200" alt="">
+            <div class="name_and_description">
+                <span class="name">@product.ProductName</span>
+                <p class="description_single_product">@product.ProductDescription</p>
+            </div>
+
+        </div>
+        <ul class="photos_list">
+            @for (var i = 0; i < 10; i++)
+            {
+                <li class="">
+                    <img class="picture" src="https://picsum.photos/200" alt="">
+                </li>
+            }
+        </ul>
+        <hr>
+
+        <label class="similar_products_label">Similar Products</label>
+        <ul class="similar_products">
+
+            @foreach (var similarProduct in Model.SimilarProductsWithPriceRange)
+            {
+                var productSimilar = similarProduct.Key;
+                var dataForController = new Dictionary<string, string>();
+                dataForController.Add("productId", similarProduct.Key.ProductId.ToString());
+                <form id="@productSimilar.ProductId.ToString()" class="similar_product_card" asp-controller="Product" asp-action="SingleProductView" asp-all-route-data="dataForController" onclick="this.submit()">
+                    <img class="similar_product_picture" src="https://picsum.photos/200" alt="">
+                    <h4 class="similar_product_name">@productSimilar.ProductName</h4>
+                    <h6 class="similar_product_price">from @similarProduct.Value.Item1.ToString()</h6>
+
+                </form>
+            }
+        </ul>
+        <hr>
+        
+    </div>
+
+    <section class="single_product_sellers">
+        @foreach (var seller in product.ProductFromSuppliers)
+        {
+            
+            <div id="seller" class="seller @(seller.IsDiscount ? "discount" : "")" onclick="addProductFromSuppliers();"
+>
+                <h4>@seller.Supplier.SupplierName</h4>
+                <h5>@(seller.IsDiscount ? seller.NewPrice.ToString() : seller.Price.ToString()) $</h5>
+
+            </div>
+        }
+
+    </section>
+
+</div>
+
+@section Scripts
+{
+    <script>
+        $(window).scroll(function(){
+          var scroll = $(window).scrollTop();
+          var box1 = $('.similar_product_card');
+          box1.css({'box-shadow': + (7) + 'px ' + (-2) + 'px ' + (20 + scroll) + 'px ' + ' rgba(0,0,0,0.25)'});
+          
+        });
+        
+         function submitForm(productId, supplierId){
+              
+         
+                    $.ajax({
+                    
+                        url: "@Url.Action("AddToBucket", "Product")",
+                        type: "POST",
+                        data: { productId: productId,
+                                supplierId: supplierId
+                            },
+                        
+                    });
+                };
+        
+         function addProductFromSuppliers() {
+             // Call the method on the client side when the button is clicked
+             $.ajax({
+                 url: '@Url.Action("AddToBucket", "Product")',
+                 type: 'POST',
+                 data: {},
+                 
+             });
+         }
+    </script>
+}

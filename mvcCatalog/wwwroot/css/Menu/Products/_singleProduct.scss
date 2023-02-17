@@ -24,16 +24,22 @@
       margin-left: 40px;
 
       .main_picture {
+        animation-name: uprise;
+        animation-duration: 0.4s;
+        animation-timing-function: ease;
         height: 200px;
         border-radius: 7px;
         box-shadow: 0 0 40px rgba(19, 25, 29, 0.4);
+        
       }
 
 
       .name_and_description {
+        
         margin-right: 10px;
 
         .name {
+          
           width: 40%;
 
           font-weight: 350;
@@ -56,6 +62,7 @@
     }
 
     .photos_list {
+
       margin-top: 40px;
       //margin-left: 80px;
       border-radius: 10px;
@@ -70,15 +77,21 @@
       margin-left: 10px;
       flex-wrap: nowrap;
       height: 20vmin;
+      //box-shadow: 3px -40px 20px rgba(0, 0, 0, 0.35);
 
 
       li {
+        animation-name: uprise;
+        animation-duration: 0.4s;
+        animation-timing-function: ease;
         //height: 100%;
         padding-right: 10px;
         margin: 0;
         flex-shrink: 0;
 
+
         .picture {
+
           height: 100%;
           border-radius: 10px;
           padding-bottom: 4px;
@@ -96,16 +109,92 @@
 
   }
 
+
+  .similar_products_label {
+    margin-left: 50px;
+    margin-top: 20px;
+    font-weight: 450;
+    margin-bottom: 5px;
+  }
+
+  .similar_products {
+    
+
+    margin-left: 40px;
+    //border: 1px solid black;
+    border-radius: 10px;
+    flex-grow: 2;
+
+
+    padding-left: 0;
+    //padding: 5px;
+    //max-width: 700px;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+
+    .similar_product_card {
+      animation-name: uprise;
+      animation-duration: 0.4s;
+      animation-timing-function: ease;
+      cursor: pointer;
+
+      margin-bottom: 10px;
+      margin-right: 20px;
+      width: 400px;
+
+      border-radius: 10px;
+      box-shadow: 7px -2px 30px rgba(0, 0, 0, 0.25);
+
+      position: relative;
+      height: 90px;
+      display: flex;
+      padding: 5px;
+
+      .similar_product_picture {
+        object-fit: contain;
+        border-radius: 10px;
+
+      }
+
+      .similar_product_name {
+        padding-left: 6px;
+        font-size: 18px;
+        font-weight: 350;
+      }
+
+      .similar_product_price {
+        padding-right: 10px;
+        font-size: 16px;
+        font-weight: 350;
+        position: absolute;
+        right: 0;
+        bottom: 50%;
+      }
+
+    }
+  }
+
   .single_product_sellers {
+    border-radius: 20px;
+    background: #e0e0e0;
+    box-shadow: inset 16px 16px 32px #bebebe,
+    inset -16px -16px 32px #ffffff;
 
     margin: 10px;
     flex-shrink: 2;
-    cursor: pointer;
     right: 0;
     //width: 400px;
     min-width: 390px;
 
     .seller {
+      
+      animation-name: uprise;
+      animation-duration: 0.4s;
+      animation-timing-function: ease;
+      cursor: pointer;
+
+
       transition: 0.15s ease;
       padding: 10px;
       border-radius: 10px;
@@ -115,10 +204,12 @@
     }
 
     .seller.discount {
+      box-shadow: inset 0px 0px 10px #bebebe,
+      inset 0px 0px 7px #ffffff;
       transition: 0.15s;
       background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
       background-size: 130% 130%;
-      animation: gradient 10s ease infinite;
+      animation: gradient 10s ease infinite, uprise 0.4s ease !important;
     }
 
     .seller.discount::before {
@@ -135,15 +226,17 @@
     }
 
     .seller:hover {
-      box-shadow: 0 0 20px rgba(19, 25, 29, 0.4);
+      box-shadow: 0 0 10px rgba(19, 25, 29, 0.4);
     }
 
     .seller.discount:hover {
-      box-shadow: 0 0 20px rgba(19, 25, 29, 0.6);
+      box-shadow: inset 0px 0px 0px #dedede,
+      inset 0 0 0 #e2e2e2;
       background-size: 120% 120%;
 
     }
   }
+
 
 }
 
@@ -205,6 +298,15 @@
     .single_product_sellers {
       margin: 5px;
       width: 100%;
+    }
+
+    .similar_products_label {
+      margin-left: 20px;
+    }
+
+    .similar_products {
+      margin-left: 10px;
+      margin-right: 10px;
     }
   }
 }

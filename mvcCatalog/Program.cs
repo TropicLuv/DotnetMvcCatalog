@@ -5,6 +5,7 @@ using mvcCatalog.Repositories;
 using mvcCatalog.Repositories.CategoryRepo;
 using mvcCatalog.Repositories.ProductFromSupplierRepo;
 using mvcCatalog.Repositories.ProductRepo;
+using mvcCatalog.Repositories.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,12 +17,13 @@ builder.Services.AddDbContext<DataContext>(options =>
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductFromSupplierRepository, ProductFromSupplierRepository>();
+builder.Services.AddSingleton<IBucketService, BucketService>();
+
 
 builder.Services.AddScoped<AppRepository>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())

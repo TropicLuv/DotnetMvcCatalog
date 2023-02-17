@@ -6,8 +6,8 @@
   display: compact;
   position: relative;
 }
-
-.category {
+.container_categories .category {
+  position: relative;
   margin: 0;
   display: flex;
   align-items: center;
@@ -15,12 +15,28 @@
   text-align: center;
   transition: 0.25s;
   height: 50px;
-  width: 29vmin;
-  cursor: pointer;
+  width: 100%;
   color: black;
   overflow: hidden;
 }
-.category .category_title {
+.container_categories .category .for_add_new_category_button {
+  font-size: 2px !important;
+}
+.container_categories .category .for_add_new_category_button .add_new_category label {
+  font-size: 17px;
+}
+.container_categories .category .for_add_new_category_button .behind_effect {
+  height: 25px;
+  width: 50px;
+}
+.container_categories .category .delete_form {
+  visibility: hidden;
+}
+.container_categories .category .edit_button {
+  visibility: hidden;
+}
+.container_categories .category .category_title {
+  cursor: default;
   justify-content: center;
   font-weight: 350;
   font-size: 17px;
@@ -30,9 +46,20 @@
   transition: 0.3s;
   background-color: rgba(21, 21, 21, 0.2);
   box-shadow: -11px 0 rgb(19, 25, 29) !important;
+  border-left: 11px solid rgb(19, 25, 29);
   color: black;
-  transform: translateX(10px);
-  backdrop-filter: blur(10px);
+}
+.category:hover .delete_form {
+  animation-name: uprise;
+  animation-duration: 0.2s;
+  animation-timing-function: linear;
+  visibility: visible;
+}
+.category:hover .edit_button {
+  animation-name: uprise;
+  animation-duration: 0.2s;
+  animation-timing-function: linear;
+  visibility: visible;
 }
 .category:hover .category_title {
   font-weight: 370;
@@ -48,7 +75,7 @@
   background-color: rgba(21, 21, 21, 0.2);
   box-shadow: 0 0 transparent;
   color: black;
-  width: 100%;
+  text-indent: 10px;
 }
 
 @media (max-width: 1000px) {
@@ -67,6 +94,7 @@
   }
 }
 .container_children_categories {
+  justify-content: center;
   margin-left: 0px;
   display: flex;
   flex-wrap: wrap;
@@ -125,17 +153,16 @@
 }
 
 .children_category {
-  flex-grow: 2;
+  flex-grow: 1.3;
   position: relative;
-  cursor: pointer;
   transition: 1s ease !important;
   animation-name: uprise;
   animation-duration: 0.1s;
   animation-timing-function: linear;
-  max-width: 350px;
+  max-width: 250px;
   min-width: 200px;
   max-height: 300px;
-  min-height: 200px;
+  min-height: 150px;
   aspect-ratio: 1/1;
   height: 25vmin;
   width: 25vmin;
@@ -146,6 +173,19 @@
   overflow: hidden;
   align-items: center;
   justify-content: center;
+}
+.children_category form {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.children_category .delete_form {
+  visibility: hidden;
+  z-index: 1;
+  cursor: pointer;
+}
+.children_category .edit_button {
+  visibility: hidden;
 }
 .children_category .picture {
   object-fit: cover;
@@ -177,6 +217,18 @@
   transition: 0.3s !important;
   border-color: #5c636a;
   background-color: #000000;
+}
+.children_category:hover .delete_form {
+  animation-name: uprise;
+  animation-duration: 0.2s;
+  animation-timing-function: linear;
+  visibility: visible;
+}
+.children_category:hover .edit_button {
+  animation-name: uprise;
+  animation-duration: 0.2s;
+  animation-timing-function: linear;
+  visibility: visible;
 }
 .children_category:hover .picture {
   transition: 0.2s;
@@ -235,8 +287,12 @@
     width: 100%;
   }
   .children_category {
-    max-width: 400px;
-    min-width: 200px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    max-width: 280px;
+  }
+  .children_category.for_add_new_category_button.for_children {
+    margin: 15px;
   }
 }
 @keyframes gradient {
@@ -250,6 +306,178 @@
     background-position: 0% 50%;
   }
 }
+.create_form {
+  position: relative;
+  width: 100%;
+  animation-name: uprise;
+  animation-duration: 0.25s;
+  animation-timing-function: linear;
+  display: grid;
+  order: revert;
+  align-items: center;
+  justify-content: center;
+}
+.create_form select {
+  align-self: center;
+  justify-self: center;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 7px;
+  font-size: 19px;
+  font-weight: 300;
+  height: 40px;
+  margin-bottom: 25px;
+  min-width: 300px;
+  width: 15%;
+  border: 1px solid rgba(44, 44, 44, 0.27);
+}
+.create_form select:focus {
+  outline: 0 solid transparent !important;
+  transition: 0.2s;
+  border: 1px solid black !important;
+  -webkit-mask-image: linear-gradient(-75deg, rgba(0, 0, 0, 0.6) 40%, #000 10%, rgba(0, 0, 0, 0.6) 80%);
+  -webkit-mask-size: 200%;
+  animation: shine 4s infinite;
+  animation-timing-function: linear;
+  color: black !important;
+}
+.create_form select:active {
+  color: black !important;
+}
+.create_form .category_create_form {
+  overflow: hidden;
+  padding-top: 20px;
+  display: grid;
+  place-items: center;
+  grid-template-columns: 1fr;
+  height: 100%;
+  width: 80vmin;
+  min-width: 300px;
+  border-radius: 8px;
+  background: linear-gradient(145deg, #f0f0f0, #cacaca);
+  box-shadow: 19px 19px 38px #c7c7c7, -19px -19px 38px #f9f9f9;
+}
+.create_form .category_create_form .category_create_form_group {
+  font-weight: 300;
+  width: 90%;
+  padding-top: 20px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.create_form .category_create_form .category_create_form_group input.categoryId {
+  background-color: rgba(67, 67, 67, 0.18) !important;
+  cursor: default !important;
+  outline: none;
+}
+.create_form .category_create_form .category_create_form_group input.categoryId:active, .create_form .category_create_form .category_create_form_group input.categoryId:focus {
+  border: 0 solid black !important;
+}
+.create_form .category_create_form .category_create_form_group textarea {
+  transition: 0.2s;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 300;
+  resize: none;
+  border: 0 solid transparent;
+  height: 80px;
+  width: 100%;
+  outline: none;
+  overflow: scroll;
+}
+.create_form .category_create_form .category_create_form_group textarea:active, .create_form .category_create_form .category_create_form_group textarea:focus {
+  border: 1px solid black;
+}
+.create_form .category_create_form .category_create_form_group label {
+  font-size: 19px;
+  font-weight: 320;
+  padding-top: 10px;
+  padding-bottom: 4px;
+}
+.create_form .category_create_form .category_create_form_group input {
+  font-size: 17px;
+  font-weight: 350;
+  border-radius: 4px;
+  border: 0 solid black;
+  outline: none;
+}
+.create_form .category_create_form .category_create_form_group input:focus, .create_form .category_create_form .category_create_form_group input:active {
+  transition: 0.2s;
+  border: 1px solid black !important;
+}
+.create_form .category_create_form .category_create_form_group > input {
+  width: 100%;
+  height: 40px;
+  border-radius: 7px;
+  border: 0 solid transparent;
+}
+.create_form .category_create_form .card_button_submit {
+  border: 0 solid black;
+  background: transparent;
+  display: flex;
+  width: 100% !important;
+  z-index: 1;
+}
+.create_form .category_create_form .card_button_submit .button_submit {
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 130% 230%;
+  animation: gradient 5s ease infinite, pulse 1s !important;
+  font-weight: 320;
+  font-size: 30px;
+  width: 100%;
+  border: none;
+  z-index: 2;
+}
+.create_form .category_create_form .card_button_submit .button_submit:focus, .create_form .category_create_form .card_button_submit .button_submit:hover {
+  transition: 0.2s;
+}
+.create_form .category_create_form .card_button_submit .button_submit:active {
+  background-color: black;
+  background-size: 100% 100%;
+}
+
+.delete_form {
+  position: absolute !important;
+  width: 20px !important;
+  height: 20px !important;
+  cursor: pointer !important;
+  right: 0 !important;
+  top: 0 !important;
+  background-color: red !important;
+  font-weight: 1000 !important;
+  text-align: center !important;
+  margin: auto !important;
+  text-indent: 0 !important;
+}
+
+.edit_button {
+  position: absolute !important;
+  width: 20px !important;
+  height: 20px !important;
+  cursor: pointer !important;
+  right: 20px !important;
+  top: 0 !important;
+  background-color: yellow !important;
+  border: none;
+  z-index: 1;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #767676;
+}
+
+select:active .option_element, select:focus .option_element, select:hover .option_element {
+  background-color: transparent !important;
+}
+
 .product_view {
   display: grid;
   grid-template-columns: 200px auto;
@@ -341,6 +569,12 @@
   margin-right: 0;
 }
 .product_view .products .product-element {
+  display: flex;
+  overflow: hidden;
+  transition: 0.2s;
+  border-radius: 15px;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
   animation-name: uprise;
   animation-duration: 0.2s;
   animation-timing-function: ease-in-out;
@@ -348,18 +582,46 @@
   height: 25vmin;
   width: 100%;
   display: flex;
+  margin-bottom: 10px;
   padding-bottom: 5px;
   padding-top: 5px;
   padding-left: 5px;
-  border-radius: 10px;
-  border-bottom-right-radius: 0;
-  border-top-right-radius: 0;
-  cursor: pointer;
+  cursor: default;
   overflow: hidden;
   transition: 0.2s;
 }
+.product_view .products .product-element .children_category.for_add_new_category_button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  height: 50% !important;
+}
+.product_view .products .product-element .children_category.for_add_new_category_button .behind_effect {
+  height: 10px;
+}
+.product_view .products .product-element .children_category.for_add_new_category_button .add_new_category {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0);
+  width: 50%;
+  height: 60% !important;
+  border-radius: 20px;
+}
+.product_view .products .product-element .children_category.for_add_new_category_button .add_new_category label {
+  color: black;
+}
+.product_view .products .product-element .delete_form {
+  visibility: hidden;
+  background-color: red !important;
+}
+.product_view .products .product-element .edit_button {
+  visibility: hidden;
+}
 .product_view .products .product-element .picture {
-  border-radius: 5px;
+  padding: 5px;
+  border-radius: 20px;
   object-fit: contain;
   height: 100%;
   transition: 0.2s;
@@ -393,8 +655,9 @@
 }
 .product_view .products .product-element .price {
   position: absolute;
-  right: 15px;
-  bottom: 50%;
+  height: 30px;
+  right: 3%;
+  bottom: 50% !important;
   font-size: 19px;
   font-weight: 150;
   color: #222;
@@ -404,7 +667,20 @@
 
 .product-element:hover {
   transition: 0.3s !important;
-  box-shadow: 0 0 40px rgba(19, 25, 29, 0.3);
+  background: #e0e0e0;
+  box-shadow: inset 8px 8px 16px #b3b3b3, inset -8px -8px 16px #ffffff;
+}
+.product-element:hover .delete_form {
+  animation-name: uprise;
+  animation-duration: 0.2s;
+  animation-timing-function: linear;
+  visibility: visible !important;
+}
+.product-element:hover .edit_button {
+  animation-name: uprise;
+  animation-duration: 0.2s;
+  animation-timing-function: linear;
+  visibility: visible !important;
 }
 .product-element:hover .price {
   transition: 0.2s;
@@ -478,6 +754,9 @@
   margin-left: 40px;
 }
 .single_product_view .info .info_and_photos .main_picture {
+  animation-name: uprise;
+  animation-duration: 0.4s;
+  animation-timing-function: ease;
   height: 200px;
   border-radius: 7px;
   box-shadow: 0 0 40px rgba(19, 25, 29, 0.4);
@@ -514,6 +793,9 @@
   height: 20vmin;
 }
 .single_product_view .info .photos_list li {
+  animation-name: uprise;
+  animation-duration: 0.4s;
+  animation-timing-function: ease;
   padding-right: 10px;
   margin: 0;
   flex-shrink: 0;
@@ -524,14 +806,67 @@
   padding-bottom: 4px;
   object-fit: contain;
 }
+.single_product_view .similar_products_label {
+  margin-left: 50px;
+  margin-top: 20px;
+  font-weight: 450;
+  margin-bottom: 5px;
+}
+.single_product_view .similar_products {
+  margin-left: 40px;
+  border-radius: 10px;
+  flex-grow: 2;
+  padding-left: 0;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+}
+.single_product_view .similar_products .similar_product_card {
+  animation-name: uprise;
+  animation-duration: 0.4s;
+  animation-timing-function: ease;
+  cursor: pointer;
+  margin-bottom: 10px;
+  margin-right: 20px;
+  width: 400px;
+  border-radius: 10px;
+  box-shadow: 7px -2px 30px rgba(0, 0, 0, 0.25);
+  position: relative;
+  height: 90px;
+  display: flex;
+  padding: 5px;
+}
+.single_product_view .similar_products .similar_product_card .similar_product_picture {
+  object-fit: contain;
+  border-radius: 10px;
+}
+.single_product_view .similar_products .similar_product_card .similar_product_name {
+  padding-left: 6px;
+  font-size: 18px;
+  font-weight: 350;
+}
+.single_product_view .similar_products .similar_product_card .similar_product_price {
+  padding-right: 10px;
+  font-size: 16px;
+  font-weight: 350;
+  position: absolute;
+  right: 0;
+  bottom: 50%;
+}
 .single_product_view .single_product_sellers {
+  border-radius: 20px;
+  background: #e0e0e0;
+  box-shadow: inset 16px 16px 32px #bebebe, inset -16px -16px 32px #ffffff;
   margin: 10px;
   flex-shrink: 2;
-  cursor: pointer;
   right: 0;
   min-width: 390px;
 }
 .single_product_view .single_product_sellers .seller {
+  animation-name: uprise;
+  animation-duration: 0.4s;
+  animation-timing-function: ease;
+  cursor: pointer;
   transition: 0.15s ease;
   padding: 10px;
   border-radius: 10px;
@@ -539,10 +874,11 @@
   background: linear-gradient(90deg, hsl(233deg, 100%, 90%) 0%, hsl(0deg, 0%, 89%) 100%);
 }
 .single_product_view .single_product_sellers .seller.discount {
+  box-shadow: inset 0px 0px 10px #bebebe, inset 0px 0px 7px #ffffff;
   transition: 0.15s;
   background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
   background-size: 130% 130%;
-  animation: gradient 10s ease infinite;
+  animation: gradient 10s ease infinite, uprise 0.4s ease !important;
 }
 .single_product_view .single_product_sellers .seller.discount::before {
   right: 0;
@@ -555,10 +891,10 @@
   mix-blend-mode: darken;
 }
 .single_product_view .single_product_sellers .seller:hover {
-  box-shadow: 0 0 20px rgba(19, 25, 29, 0.4);
+  box-shadow: 0 0 10px rgba(19, 25, 29, 0.4);
 }
 .single_product_view .single_product_sellers .seller.discount:hover {
-  box-shadow: 0 0 20px rgba(19, 25, 29, 0.6);
+  box-shadow: inset 0px 0px 0px #dedede, inset 0 0 0 #e2e2e2;
   background-size: 120% 120%;
 }
 
@@ -591,6 +927,13 @@
   .single_product_view .single_product_sellers {
     margin: 5px;
     width: 100%;
+  }
+  .single_product_view .similar_products_label {
+    margin-left: 20px;
+  }
+  .single_product_view .similar_products {
+    margin-left: 10px;
+    margin-right: 10px;
   }
 }
 @keyframes gradient {
@@ -647,6 +990,20 @@ ul {
   font-size: 16px;
   font-weight: 380;
   border-radius: 10px;
+}
+
+.toBuy {
+  margin-right: 10px;
+  cursor: pointer;
+  padding-left: 10px;
+  padding-top: 2px;
+  padding-bottom: 4px;
+  border-radius: 10px;
+  border: 1px solid black;
+  display: inline-flex;
+  font-size: 16px;
+  font-weight: 350;
+  width: 100px;
 }
 
 /*# sourceMappingURL=style.css.map */

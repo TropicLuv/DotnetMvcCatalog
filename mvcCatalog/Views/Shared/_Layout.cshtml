@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using mvcCatalog.Repositories.Services
+@inject IBucketService BucketService
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
@@ -6,8 +8,7 @@
     <title>@ViewData["Title"] - mvcCatalog</title>
     <link
         rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-      />
+        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/style.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/mvcCatalog.styles.css" asp-append-version="true"/>
@@ -16,7 +17,7 @@
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container-fluid">
-            <a class="navbar-brand" asp-area="" asp-controller="Menu" asp-action="Categories">mvcCatalog</a>
+            <a class="navbar-brand" asp-area="" asp-controller="Category" asp-action="Categories">mvcCatalog</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -32,13 +33,14 @@
                 </ul>
             </div>
         </div>
+        <div class="toBuy">Bucket - @BucketService.GetReadyToPayProductsAmount().ToString()</div>
     </nav>
 </header>
-<div id="root" class="root">
-    <main role="main" class="@*pb-3*@">
+<span id="root" class="root">
+    <main id="main" role="main" class="@*pb-3*@">
         @RenderBody()
     </main>
-</div>
+</span>
 
 <footer class="border-top footer text-muted">
     <div class="container">
@@ -48,6 +50,7 @@
 @* <script src="~lib/jquery-validation-unobtrusive"></script>  *@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
 @await RenderSectionAsync("Scripts", false)
 </body>

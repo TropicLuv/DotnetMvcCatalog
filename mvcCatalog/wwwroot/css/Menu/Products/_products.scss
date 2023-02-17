@@ -114,6 +114,46 @@
     margin-right: 0;
 
     .product-element {
+      display: flex;
+      overflow: hidden;
+      transition: 0.2s;
+      border-radius: 15px;
+      border-bottom-right-radius: 0;
+      border-top-right-radius: 0;
+    
+      
+
+      .children_category.for_add_new_category_button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        
+        height: 50% !important;
+        
+        .behind_effect{
+          height: 10px;
+        }
+
+        .add_new_category {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          
+          background-color: rgba(0, 0, 0, 0.0);
+          width: 50%;
+          height: 60% !important;
+          border-radius: 20px;
+          
+          label {
+            //height: 1px;
+            //width: 20%;
+            color: black;
+          }
+        }
+      }
+
+
       animation-name: uprise;
       animation-duration: 0.2s;
       animation-timing-function: ease-in-out;
@@ -122,30 +162,34 @@
       height: 25vmin;
       width: 100%;
       display: flex;
-      //flex-wrap: wrap;
-      //margin: 15px;
-      //padding: 1px;
+
+      margin-bottom: 10px;
       padding-bottom: 5px;
       padding-top: 5px;
       padding-left: 5px;
-      border-radius: 10px;
-      border-bottom-right-radius: 0;
-      border-top-right-radius: 0;
 
-      cursor: pointer;
+
+      cursor: default;
       overflow: hidden;
       transition: 0.2s;
-
-      //border: 1px solid black;
-
 
       //justify-content: flex-start;
       //align-items: flex-start;
       //align-content: flex-start;
 
 
+      .delete_form {
+        visibility: hidden;
+        background-color: red !important;
+      }
+
+      .edit_button {
+        visibility: hidden;
+      }
+
       .picture {
-        border-radius: 5px;
+        padding: 5px;
+        border-radius: 20px;
         object-fit: contain;
         height: 100%;
         transition: 0.2s;
@@ -182,24 +226,20 @@
         bottom: 4px;
       }
 
-
       .price {
         position: absolute;
-        right: 15px;
-        bottom: 50%;
-
+        height: 30px;
+        right: 3%;
+        bottom: 50% !important;
         font-size: 19px;
-
         font-weight: 150;
         color: #222;
         letter-spacing: 1px;
-        //text-transform: uppercase;
         transition: 0.5s;
-
-
       }
 
     }
+
   }
 }
 
@@ -207,13 +247,27 @@
 
 .product-element:hover {
   transition: 0.3s !important;
-  //background-color: rgba(19, 25, 29, 0.15);
-  //background-size: 350% 100% !important;
 
-  //background-color: rgba(19, 25, 29, 0.05);
+  //box-shadow: 0 0 30px rgba(19, 25, 29, 0.35);
+  background: #e0e0e0;
+  box-shadow: inset 8px 8px 16px #b3b3b3,
+  inset -8px -8px 16px #ffffff;
 
 
-  box-shadow: 0 0 40px rgba(19, 25, 29, 0.3);
+  .delete_form {
+    animation-name: uprise;
+    animation-duration: 0.2s;
+    animation-timing-function: linear;
+    visibility: visible !important;
+  }
+
+  .edit_button {
+    animation-name: uprise;
+    animation-duration: 0.2s;
+    animation-timing-function: linear;
+    visibility: visible !important;
+  }
+
 
   .price {
     transition: 0.2s;
@@ -290,8 +344,11 @@
       font-size: 17px !important;
       font-weight: 350 !important;
     }
+    
 
   }
+  
+ 
 
 
 }

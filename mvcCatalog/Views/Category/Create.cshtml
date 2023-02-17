@@ -1,0 +1,80 @@
+﻿@using mvcCatalog.Repositories.CategoryRepo
+@model Category
+@inject ICategoryRepository Repository
+
+@{
+    ViewData["Title"] = "Create Category";
+}
+
+<div class="create_form">
+
+    @if (ViewData["parentCategoryId"]!.ToString() != "no_parent")
+    {
+        <select id="select" value=@ViewData["parentCategoryId"] onchange="changeParent();">
+
+            @foreach (var category in await Repository.getWithNoParent())
+            {
+                var categoryId = category.CategoryId.ToString();
+
+
+                if (categoryId == (string)ViewData["parentCategoryId"]!)
+                {
+                    <option class="option_element" id="@categoryId" value=@categoryId selected>@category.CategoryName</option>
+                }
+                else
+                {
+                    <option class="option_element" id="@categoryId" value=@categoryId>@category.CategoryName</option>
+                }
+            }
+        </select>
+    }
+    <form class="category_create_form" asp-action="Create">
+        @* <div asp-validation-summary="ModelOnly" class="text-danger"></div> *@
+        <div class="category_create_form_group">
+            <label asp-for="@Model.CategoryName"></label>
+            <br>
+            <input asp-for="CategoryName">
+            <br>
+            <span asp-validation-for="CategoryName" class="text-danger"></span>
+        </div>
+        <div class="category_create_form_group">
+            <label asp-for="Image"></label>
+            <br>
+            <input asp-for="Image">
+            <br>
+            <span asp-validation-for="Image" class="text-danger"></span>
+        </div>
+        <div class="category_create_form_group">
+            <label asp-for="Description"></label>
+            <br>
+            <textarea asp-for="Description"></textarea>
+            <br>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        @if (ViewData["parentCategoryId"]!.ToString() != "no_parent")
+        {
+            <div class="category_create_form_group">
+                <input id="parentIdInput" asp-for="ParentCategoryId" value=@ViewData["parentCategoryId"] hidden="hidden">
+            </div>
+        }
+        <div class="card_button_submit">
+            <div class="behind_effect"></div>
+            <input type="submit" value="Create" class="button_submit"/>
+        </div>
+    </form>
+</div>
+
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
+    <script>
+        function changeParent(){
+                let parentCategoryId = parseInt($("#select").val())
+                let a = $("#parentIdInput").val()
+                $("#parentIdInput").val(parentCategoryId);
+    
+        }
+    </script>
+
+}

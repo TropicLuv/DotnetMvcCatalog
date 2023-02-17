@@ -1,0 +1,108 @@
+﻿@using Microsoft.IdentityModel.Tokens
+@using mvcCatalog.Repositories.CategoryRepo
+@model IEnumerable<Category>
+@inject ICategoryRepository Repository
+@{
+    ViewData["Title"] = "Categories";
+    var parentCategoryForChildrenRenderId = ViewData["parentCategoryForChildrenRenderId"];
+    var model = await Repository.getWithNoParent();
+}
+
+@* <h1>Categories</h1> *@
+
+<div id="content" class="Categories">
+    <ul id="list" class="container_categories">
+        <li class="category">
+            <div class="children_category for_add_new_category_button">
+                <div class="behind_effect"></div>
+                @{
+                    var parentId = "no_parent";
+
+                }
+                <form class="add_new_category" asp-action="Create" method="get" onclick="this.submit()">
+                    <label for="">Add</label>
+                    <input type="hidden" name="categoryId" value="@parentId"/>
+                </form>
+            </div>
+        </li>
+        @foreach (var category in model)
+        {
+            <li data-id="@category.CategoryId.ToString()" class="category 
+    @(parentCategoryForChildrenRenderId == null 
+        ? category.CategoryName == model.First().CategoryName 
+            ? "selected" 
+            : "" 
+        : category.CategoryId == int.Parse(parentCategoryForChildrenRenderId.ToString()!) ? "selected" : "" )
+
+">
+                @* <img class="card-img-top" src="..." alt="Card image cap"> *@
+
+
+                <form class="edit_button" asp-action="Edit" method="get" onclick="this.submit()">
+                    <input type="text" name="categoryId" value=@category.CategoryId.ToString() hidden="hidden">
+                </form>
+                @if (category.ChildrenCategories.IsNullOrEmpty())
+                {
+                    @Html.Partial("_Delete", category.CategoryId.ToString())
+                }
+                <span class="category_title">
+                    @Html.DisplayFor(modelItem => category.CategoryName)
+                </span>
+
+            </li>
+        }
+
+    </ul>
+    <div id="subCategories">
+        @if (parentCategoryForChildrenRenderId == null)
+        {
+            @Html.Partial("_ChildrenCategories",
+                model.First().ChildrenCategories
+                , new ViewDataDictionary(ViewData) { { "parentCategoryId", model.First().CategoryId.ToString() } })
+        }
+        else
+        {
+            @Html.Partial("_ChildrenCategories",
+                model.First(c => c.CategoryId == int.Parse(parentCategoryForChildrenRenderId.ToString()!)).ChildrenCategories
+                , new ViewDataDictionary(ViewData) { { "parentCategoryId", parentCategoryForChildrenRenderId.ToString() } })
+        }
+    </div>
+</div>
+
+
+@* @{  *@
+@*     var a = new Dictionary<string, string> { { "categoryId", "15" } }; *@
+@* } *@
+@* <a asp-controller="Menu" asp-action="PartialProducts" asp-all-route-data="a">Tap Me</a> *@
+
+
+
+
+@section Scripts
+{
+    <script>
+    $(document).ready(function() {
+        $("#list li").click(function() {
+              $("li").removeClass("selected");
+                $(this).addClass("selected");
+              
+            let categoryId = $(this).data("id");
+ 
+
+            $.ajax({
+                type: "GET",
+                url: "PartialCategories",
+                data: { categoryId: categoryId },
+                success: function(result) {
+                    $("#subCategories").html(result);
+                }
+            });
+        });
+        // $(window).resize(function() {
+        //      if ($(window).width() >= 768) {
+        //            $("ul").show();
+        //         }
+        //      });
+    });
+    </script>
+}

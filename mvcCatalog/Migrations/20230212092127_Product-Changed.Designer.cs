@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using mvcCatalog.Data;
 
@@ -11,9 +12,11 @@ using mvcCatalog.Data;
 namespace mvcCatalog.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230212092127_Product-Changed")]
+    partial class ProductChanged
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,7 +54,7 @@ namespace mvcCatalog.Migrations
 
                     b.HasIndex("ParentCategoryId");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("mvcCatalog.Models.Image", b =>
@@ -74,7 +77,7 @@ namespace mvcCatalog.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Image", (string)null);
+                    b.ToTable("Image");
                 });
 
             modelBuilder.Entity("mvcCatalog.Models.Product", b =>
@@ -120,7 +123,7 @@ namespace mvcCatalog.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("mvcCatalog.Models.ProductFromSupplier", b =>
@@ -144,7 +147,7 @@ namespace mvcCatalog.Migrations
 
                     b.HasIndex("SupplierId");
 
-                    b.ToTable("ProductsFromSuppliers", (string)null);
+                    b.ToTable("ProductsFromSuppliers");
                 });
 
             modelBuilder.Entity("mvcCatalog.Models.Supplier", b =>
@@ -165,7 +168,7 @@ namespace mvcCatalog.Migrations
 
                     b.HasKey("SupplierId");
 
-                    b.ToTable("Suppliers", (string)null);
+                    b.ToTable("Suppliers");
                 });
 
             modelBuilder.Entity("mvcCatalog.Models.Category", b =>

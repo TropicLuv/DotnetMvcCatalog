@@ -9,8 +9,16 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
 
 
 {
-    public ProductRepository(DataContext context) : base(context.Products)
+    public ProductRepository(DataContext dataContext, IServiceProvider serviceProvider) : base(dataContext, serviceProvider)
     {
+    }
+
+
+    public async Task<Product> getByIdIncludingCategory(int id)
+    {
+        return await _dbSet.Where(p => p.ProductId == id)
+            .Include(p => p.Category)
+            .FirstAsync();
     }
 
     public Product? GetByIdIncludingSuppliers(int id)
@@ -19,6 +27,11 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
             .Include(p => p.ProductFromSuppliers).ThenInclude(pfs => pfs.Supplier)
             .FirstOrDefault();
     }
+
+    public Product getByIdIncludingEverything(int id) => _dbSet.Where(p => p.ProductId == id)
+        .Include(p => p.Category).ThenInclude(c => c.ParentCategory)
+        .Include(p => p.ProductFromSuppliers)
+        .First();
 
     public IQueryable<Product> GetByCategoryId(int categoryId)
     {
@@ -31,10 +44,7 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
         return GetByCategoryId(categoryId).Where(p => p.ProductFromSuppliers.Any(pfs => pfs.IsDiscount == true));
     }
 
-    public IQueryable<Product> GetEmptyQuery()
-    {
-        return _dbSet.AsQueryable();
-    }
+    public IQueryable<Product> GetEmptyQuery() => _dbSet.AsQueryable();
 
     public async Task<IQueryable<Product>> GetSimilarByName(int productId)
     {

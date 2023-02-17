@@ -22,10 +22,22 @@
 
     var dataForController = new Dictionary<string, string>();
     dataForController.Add("productId", element.Key.ProductId.ToString());
-    dataForController.Add("categoryId", element.Key.ProductId.ToString());
 
-    <a asp-action="SingleProductView" asp-all-route-data="dataForController">
-        <li id="@element.Key.ProductId.ToString()" class="product-element">
+    @* <form id="delete_form" class="delete_form" onclick="delete_product(@element.Key.ProductId.ToString()); return false;"> *@
+    @*     X *@
+    @* </form> *@
+
+    <form asp-controller="Product" asp-action="SingleProductView" method="get" asp-all-route-data="dataForController" onclick="this.submit()">
+
+        <li class="product-element" id="@element.Key.ProductId.ToString()" class="">
+
+
+            @* @Html.Partial("_Delete", element.Key.ProductId.ToString()) *@
+
+            <a class="edit_button" asp-action="Edit" method="get" asp-all-route-data="dataForController"></a>
+            @Html.Partial("_Delete", element.Key.ProductId.ToString())
+
+
             <img class="picture" src="https://picsum.photos/200" alt="">
             <div class="name_and_description">
                 <span class="name" id="@element.Key.ProductId.ToString()">@element.Key.ProductName</span>
@@ -35,5 +47,7 @@
             <span class="price">@price</span>
 
         </li>
-    </a>
+        <input name="productId" value=@element.Key.ProductId.ToString() hidden="hidden"/>
+
+    </form>
 }

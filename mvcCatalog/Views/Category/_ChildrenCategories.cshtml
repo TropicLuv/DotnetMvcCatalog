@@ -1,0 +1,51 @@
+﻿@using Microsoft.IdentityModel.Tokens
+@model IEnumerable<Category>
+
+@{
+    ViewData["Title"] = "Children Categories";
+    var parentId = ViewData["parentCategoryId"]!.ToString()!;
+
+}
+
+<div id="list-categories" class="container_children_categories col-9">
+    @foreach (var category in Model)
+    {
+        <div class="children_category">
+
+            <form class="edit_button" asp-action="Edit" method="get" onclick="this.submit()">
+                <input type="text" name="categoryId" value=@category.CategoryId.ToString() hidden="hidden">
+            </form>
+
+            @if (category.Products.IsNullOrEmpty())
+            {
+                @Html.Partial("_Delete", category.CategoryId.ToString())
+            }
+
+
+            <form asp-controller="Product" asp-action="Products" method="get" onclick="this.submit()">
+
+                <img class="picture" src="https://picsum.photos/200" alt="">
+
+                <div class="text">
+
+
+                    <h5>
+                        @Html.DisplayFor(modelItem => category.CategoryName)
+                    </h5>
+                    <p class="tap_here"><> Tap Here </p>
+                </div>
+                <input type="hidden" name="categoryId" value="@category.CategoryId.ToString()"/>
+                <input type="hidden" name="parentCategoryId" value="@parentId"/>
+
+            </form>
+        </div>
+    }
+    <div class="children_category for_add_new_category_button for_children">
+        <div class="behind_effect"></div>
+
+        <form class="add_new_category" asp-action="Create" method="get" onclick="this.submit()">
+            <label for="">Add New Category</label>
+            <input type="hidden" name="categoryId" value="@parentId"/>
+        </form>
+    </div>
+</div>

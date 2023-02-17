@@ -1,9 +1,12 @@
-﻿@model ProductView
+﻿@using mvcCatalog.Repositories.CategoryRepo
+@model ProductView
+@inject ICategoryRepository CategoryRepository
 
 @{
     ViewData["Title"] = "Products";
     Layout = "_Layout";
-
+    var category = await CategoryRepository.getById(int.Parse(Model.CategoryId));
+    var parentCategoryId = category.ParentCategoryId.ToString();
 }
 
 
@@ -61,6 +64,27 @@
 
     <ul id="products" class="products">
         @Html.Partial("_Products", Model.ProductsAndPrices)
+        @{
+            var data_add_product = new Dictionary<string, string>
+            {
+                { "parentCategoryId", parentCategoryId },
+                { "categoryId", Model.CategoryId }
+            };
+        }
+
+        <form class="product-element" asp-controller="Product" asp-action="Create" method="get" asp-all-route-data="data_add_product" onclick="this.submit()">
+            <div class="children_category for_add_new_category_button">
+                <div class="behind_effect"></div>
+                <li class="add_new_category">
+                                <label for="">Add New Product</label>
+
+                </li>
+                <input type="text" name="parentCategoryId" value="@parentCategoryId" hidden="hidden">
+                <input type="text" name="categoryId" value="@Model.CategoryId" hidden="hidden">
+            </div>
+
+      
+        </form>
     </ul>
 
 </div>
@@ -109,14 +133,24 @@
         
         $.ajax({
             type: "POST",
-            url: "@Url.Action("Products", "Menu")",
+            url: "@Url.Action("Products", "Product")",
             data: {categoryId, productsFilter},
             success: function(data) {
               $("#products").html(data);
             }
           });
     }
-    
-    
+
+    function delete_product(productId) {
+        $.ajax({
+            type: "POST",
+            url: "DeleteProduct",
+            data: { productId: productId },
+            success: function(result){
+                location.reload();
+            }
+                
+        });
+    }
     </script>
 }

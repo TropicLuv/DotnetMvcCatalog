@@ -1,38 +1,63 @@
 ﻿
 .container_categories {
   list-style-type: none;
-  //width: 100%;
   padding: 0;
   height: fit-content;
   display: compact;
   position: relative;
-  //right: 20px;
-  //background-color: rgb(67, 67, 67);
-}
-
-.category {
-  margin: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
 
 
-  transition: 0.25s;
-  height: 50px;
-  width: 29vmin;
+  .category {
+    position: relative;
+    margin: 0;
 
-  cursor: pointer;
-
-  color: black;
-  overflow: hidden;
-
-  .category_title {
+    display: flex;
+    align-items: center;
     justify-content: center;
-    font-weight: 350;
-    font-size: 17px;
+    text-align: center;
 
+
+    transition: 0.25s;
+    height: 50px;
+    width: 100%;
+
+    //cursor: pointer;
+
+    color: black;
+    overflow: hidden;
+
+
+    .for_add_new_category_button {
+      font-size: 2px !important;
+
+      .add_new_category {
+        label {
+          font-size: 17px;
+        }
+      }
+
+      .behind_effect {
+        height: 25px;
+        width: 50px;
+      }
+    }
+
+    .delete_form {
+      visibility: hidden;
+    }
+
+    .edit_button {
+      visibility: hidden;
+    }
+
+    .category_title {
+      cursor: default;
+
+      justify-content: center;
+      font-weight: 350;
+      font-size: 17px;
+
+    }
   }
 }
 
@@ -59,10 +84,27 @@
   transition: 0.3s;
   background-color: rgba(21, 21, 21, 0.2);
   box-shadow: -11px 0 rgb(19, 25, 29) !important;
+  border-left: 11px solid rgb(19, 25, 29);
   //box-shadow: -15px 0 rgb(random(255), random(255), random(255));
   color: black;
-  transform: translateX(10px);
-  backdrop-filter: blur(10px);
+  //transform: translateX(10px);
+  //backdrop-filter: blur(10px);
+
+  .delete_form {
+    animation-name: uprise;
+    animation-duration: 0.2s;
+    animation-timing-function: linear;
+
+    visibility: visible;
+  }
+
+  .edit_button {
+    animation-name: uprise;
+    animation-duration: 0.2s;
+    animation-timing-function: linear;
+
+    visibility: visible;
+  }
 
   .category_title {
     font-weight: 370;
@@ -81,7 +123,8 @@
   background-color: rgba(21, 21, 21, 0.2);
   box-shadow: 0 0 transparent;
   color: black;
-  width: 100%;
+  //width: 100%;
+  text-indent: 10px;
 
 }
 
